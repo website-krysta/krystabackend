@@ -70,7 +70,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 #     'x-csrftoken',
 #     'x-requested-with',
 # ]
-CORS_ORIGIN_WHITELIST = ["http://website-krysta.github.io"]
+CORS_ORIGIN_WHITELIST = ["https://website-krysta.github.io"]
 # CORS_ORIGIN_WHITELIST = (
 #     'http://localhost:3000',
 #     'https://website-krysta.github.io/krystafrontend'
@@ -143,6 +143,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
 import os
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 # Default primary key field type
