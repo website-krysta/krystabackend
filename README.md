@@ -6,7 +6,7 @@
 #install env
 #pip install virtualenv
 # create virtual environment
-#python -m venv env-magsmen
+#python -m venv env-krysta
 
 # activate virtual environmentcd
 #env-krysta\Scripts\activate
