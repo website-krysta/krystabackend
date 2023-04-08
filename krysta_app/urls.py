@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmaterials,addmaterial,updatematerial,getmaterial,deletematerial
+from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmaterials,addmaterial,updatematerial,getmaterial,deletematerial,getvendorlist,addvendor,addRawmaterial,getAddrawmaterial
 
                      
 urlpatterns = [
@@ -15,5 +15,11 @@ urlpatterns = [
     path('meterial/update/<int:id>/', updatematerial, name='meterialupdate'),
     path('meterial/<int:id>/', getmaterial, name='meterialid '),
     path('meterial/delet/<int:id>/', deletematerial, name='meterialdelet'),
+    #------vendor ------#
+    path('vendor/list/', getvendorlist, name='vendorlist'),
+    path('vendor/add/', addvendor, name='vendoradd'),
+    #------addRawMaterial ------#   
+    path('addRawmaterial/list/', getAddrawmaterial, name='getaddRawmaterial'),
+    path('addRawmaterial/add/', addRawmaterial, name='addRawmaterial'),
 
 ]

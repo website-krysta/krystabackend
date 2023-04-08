@@ -11,8 +11,8 @@ from django.conf import settings
 
 
 from rest_framework import generics
-from .models import user,RawMaterial
-from .serializers import UserSerializer,meterialSerializer
+from .models import user,RawMaterial,Vendor,Addrawmaterial
+from .serializers import UserSerializer,meterialSerializer,VendorSerializer,AddrawmaterialSerializer
 
 @api_view(['GET','POST'])
 def UserList(request):
@@ -121,3 +121,38 @@ def deletematerial(request,id):
         queryset.delete()
         return Response('meterial item delet sucessfully!')
      
+#vendor API ########################################
+
+
+@api_view(['GET'])
+def getvendorlist(request):
+    if request.method == 'GET':
+        queryset = Vendor.objects.all()
+        serializer_data = VendorSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
+    
+@api_view(['POST'])
+def addvendor(request):
+    if request.method == 'POST':
+        meterial_data = VendorSerializer(data = request.data)
+        if meterial_data.is_valid():
+            meterial_data.save()
+            return Response(meterial_data.initial_data, status=status.HTTP_201_CREATED)
+        return Response(meterial_data.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#Raw Meterial API ########################################
+@api_view(['GET'])
+def getAddrawmaterial(request):
+    if request.method == 'GET':
+        queryset = Addrawmaterial.objects.all()
+        serializer_data = AddrawmaterialSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
+    
+@api_view(['POST'])
+def addRawmaterial(request):
+    if request.method == 'POST':
+        meterial_data = AddrawmaterialSerializer(data = request.data)
+        if meterial_data.is_valid():
+            meterial_data.save()
+            return Response(meterial_data.initial_data, status=status.HTTP_201_CREATED)
+        return Response(meterial_data.errors, status=status.HTTP_400_BAD_REQUEST)
