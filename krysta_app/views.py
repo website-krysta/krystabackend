@@ -11,9 +11,9 @@ from django.conf import settings
 
 
 from rest_framework import generics
-from .models import user,RawMaterial,Vendor,Addrawmaterial
-from .serializers import UserSerializer,meterialSerializer,VendorSerializer,AddrawmaterialSerializer
-
+from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial
+from .serializers import UserSerializer,meterialSerializer,VendorSerializer,AddrawmaterialSerializer,\
+                         DamagedSerializer
 @api_view(['GET','POST'])
 def UserList(request):
     if request.method == 'GET':
@@ -122,8 +122,6 @@ def deletematerial(request,id):
         return Response('meterial item delet sucessfully!')
      
 #vendor API ########################################
-
-
 @api_view(['GET'])
 def getvendorlist(request):
     if request.method == 'GET':
@@ -139,7 +137,24 @@ def addvendor(request):
             meterial_data.save()
             return Response(meterial_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(meterial_data.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#Damaged API ########################################
+@api_view(['GET'])
+def getdamagedlist(request):
+    if request.method == 'GET':
+        queryset = Damaged.objects.all()
+        serializer_data = DamagedSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
     
+@api_view(['POST'])
+def adddamageditem(request):
+    if request.method == 'POST':
+        danaged_data = DamagedSerializer(data = request.data)
+        if danaged_data.is_valid():
+            danaged_data.save()
+            return Response(danaged_data.initial_data, status=status.HTTP_201_CREATED)
+        return Response(danaged_data.errors, status=status.HTTP_400_BAD_REQUEST)
+
 #Raw Meterial API ########################################
 @api_view(['GET'])
 def getAddrawmaterial(request):

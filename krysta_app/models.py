@@ -28,31 +28,43 @@ class RawMaterial(models.Model):
             return self.MaterialName
 
 class Vendor(models.Model):
-    VendorCode = models.IntegerField(primary_key=True)
+    VendorID = models.AutoField(primary_key=True)
+    VendorCode = models.CharField(max_length=100)
     VendorName = models.CharField(max_length=100)
-    VendorShopName  = models.CharField(max_length=100)
-    Phone = models.CharField(max_length=10)
+    RegisteredName  = models.CharField(max_length=100)
+    Phone = models.CharField(max_length=25)
     EmailID = models.EmailField(unique=True)
     Address =  models.CharField(max_length=255)
     City =  models.CharField(max_length=25)
     State =  models.CharField(max_length=25)
+    Zip = models.CharField(max_length=10,default=0)
     AddedTimestamp = models.DateTimeField(default=timezone.now)
     UpdatedTimestamp = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-            return self.VendorName
+            return self.VendorCode
+    
+class Damaged(models.Model):
+    DamgeID = models.AutoField(primary_key=True)
+    DamagedQty = models.IntegerField(null=True,blank=True)
+    DamagedResion = models.CharField(max_length=100,null=True,blank=True)
+    LossofAmount = models.IntegerField(null=True,blank=True)
+
+    def __str__(self):
+        return self.DamagedResion
 
 class Addrawmaterial(models.Model):
     Id = models.AutoField(primary_key=True)
     TransactionDate = models.DateTimeField(default=timezone.now)
-    BatchNo = models.CharField(max_length=100)
+    BatchNo = models.CharField(max_length=25)
     OrderedQuantity	= models.IntegerField()
     ReceivedQuantity = models.IntegerField()
     AmountPaid = models.IntegerField()
-    DamagedQty = models.IntegerField(null=True,blank=True)
-    DamagedResion = models.CharField(max_length=100,null=True,blank=True)
-    LossofAmount = models.IntegerField(null=True,blank=True)
     AddedTimestamp = models.DateTimeField(default=timezone.now)
     UpdatedTimestamp = models.DateTimeField(default=timezone.now)
     MaterialID = models.ForeignKey('RawMaterial', on_delete=models.CASCADE)
-    VendorCode = models.ForeignKey('Vendor', on_delete=models.CASCADE) 
+    VendorID = models.ForeignKey('Vendor', on_delete=models.CASCADE) 
+    DamgeID = models.ForeignKey('Damaged', on_delete=models.CASCADE) 
+
+    def __str__(self):
+        return self.BatchNo
