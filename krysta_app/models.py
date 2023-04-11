@@ -16,7 +16,7 @@ class user(models.Model):
 
 class RawMaterial(models.Model):
     MaterialID = models.AutoField(primary_key=True)
-    MaterialCode = models.CharField(max_length=255,unique=True)
+    MaterialCode = models.CharField(max_length=255)
     MaterialName  = models.CharField(max_length=25)
     QtyType = models.CharField(max_length=20 ,null=True, blank=True)
     TotalQuantity = models.IntegerField(default=0)
