@@ -5,9 +5,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Max
+from django.core import serializers
+
 # Create your jwt token .
 # import jwt 
 from django.conf import settings
+import datetime
 
 
 
@@ -15,6 +18,12 @@ from rest_framework import generics
 from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial
 from .serializers import UserSerializer,meterialSerializer,VendorSerializer,AddrawmaterialSerializer,\
                          DamagedSerializer
+
+
+current_date = datetime.datetime.now().date()
+current_date_time = datetime.datetime.now()
+
+
 @api_view(['GET','POST'])
 def UserList(request):
     if request.method == 'GET':
@@ -188,10 +197,29 @@ def addRawmaterial(request):
         max_value = max_value['max_value']+1
         key_to_get = 'DamgeID'
         request.data[key_to_get] = max_value
+        set_difference = 'DamagedQty'
+        request.data[set_difference] = int(request.data['OrderedQuantity']) - int(request.data['ReceivedQuantity'])
+   
+        #set data 
+        get_t_date = 'TransactionDate'
+        request.data[get_t_date] = current_date_time
+        get_add_time = 'AddedTimestamp'
+        request.data[get_add_time] = current_date_time
+        get_update_time = 'UpdatedTimestamp'
+        request.data[get_update_time] = current_date_time
+
         danaged_data = DamagedSerializer(data = request.data)
         if danaged_data.is_valid():
             danaged_data.save()
             print(danaged_data)
+        # update ramaterial total qty
+        Mid = request.data['MaterialID']
+        queryset = RawMaterial.objects.get(MaterialID=Mid)
+        queryset.TotalQuantity = int(queryset.TotalQuantity) + int(request.data['ReceivedQuantity'])
+        serializer_data = meterialSerializer(instance=queryset, data=queryset.__dict__)
+        if serializer_data.is_valid():
+            serializer_data.save()
+            
         meterial_data = AddrawmaterialSerializer(data = request.data)
         if meterial_data.is_valid():
             meterial_data.save()

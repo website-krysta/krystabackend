@@ -20,7 +20,7 @@ class RawMaterial(models.Model):
     MaterialName  = models.CharField(max_length=25)
     QtyType = models.CharField(max_length=20 ,null=True, blank=True)
     TotalQuantity = models.IntegerField(default=0)
-    ConsumedQuantity =  models.IntegerField(default=0)
+    ConsumedQuantity =  models.IntegerField(default=0,null=True, blank=True)
     AddedTimestamp = models.DateTimeField(default=timezone.now)
     UpdatedTimestamp = models.DateTimeField(default=timezone.now)
 
@@ -33,7 +33,7 @@ class Vendor(models.Model):
     VendorName = models.CharField(max_length=100)
     RegisteredName  = models.CharField(max_length=100)
     Phone = models.CharField(max_length=25)
-    EmailID = models.EmailField(unique=True)
+    EmailID = models.EmailField()
     Address =  models.CharField(max_length=255)
     City =  models.CharField(max_length=25)
     State =  models.CharField(max_length=25)
