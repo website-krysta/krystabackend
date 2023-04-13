@@ -2,7 +2,7 @@
 from django.urls import path
 from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmaterials,\
                   addmaterial,updatematerial,getmaterial,deletematerial,getvendorlist,\
-                  addvendor,addRawmaterial,getAddrawmaterial,adddamageditem,getdamagedlist
+                  addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,getdamagedlist,getrawmaterial
 
                      
 urlpatterns = [
@@ -19,6 +19,7 @@ urlpatterns = [
     path('meterial/delet/<int:id>/', deletematerial, name='meterialdelet'),
     #------vendor ------#
     path('vendor/list/', getvendorlist, name='vendorlist'),
+    path('vendor/<int:id>/', getvendor, name='get_vendor '),
     path('vendor/add/', addvendor, name='vendoradd'),
   #------vendor ------#
     path('damaged/list/', getdamagedlist, name='damagedlist'),
@@ -26,5 +27,6 @@ urlpatterns = [
     #------addRawMaterial ------#   
     path('addRawmaterial/list/', getAddrawmaterial, name='getaddRawmaterial'),
     path('addRawmaterial/add/', addRawmaterial, name='addRawmaterial'),
+     path('addRawmaterial/<int:id>/', getrawmaterial, name='get_addRawmaterial '),
 
 ]

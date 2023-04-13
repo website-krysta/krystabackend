@@ -24,8 +24,8 @@ class RawMaterial(models.Model):
     AddedTimestamp = models.DateTimeField(default=timezone.now)
     UpdatedTimestamp = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-            return self.MaterialName
+    def __int__(self):
+            return self.MaterialID
 
 class Vendor(models.Model):
     VendorID = models.AutoField(primary_key=True)
@@ -41,17 +41,17 @@ class Vendor(models.Model):
     AddedTimestamp = models.DateTimeField(default=timezone.now)
     UpdatedTimestamp = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-            return self.VendorCode
+    def __int__(self):
+            return self.VendorID
     
 class Damaged(models.Model):
-    DamgeID = models.AutoField(primary_key=True)
+    DamgeID = models.IntegerField(primary_key=True)
     DamagedQty = models.IntegerField(null=True,blank=True)
     DamagedResion = models.CharField(max_length=100,null=True,blank=True)
     LossofAmount = models.IntegerField(null=True,blank=True)
 
-    def __str__(self):
-        return self.DamagedResion
+    def __int__(self):
+        return self.DamgeID
 
 class Addrawmaterial(models.Model):
     Id = models.AutoField(primary_key=True)

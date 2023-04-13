@@ -4,6 +4,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.db.models import Max
 # Create your jwt token .
 # import jwt 
 from django.conf import settings
@@ -138,6 +139,15 @@ def addvendor(request):
             return Response(meterial_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(meterial_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def getvendor(request,id):
+    if request.method == 'GET':
+        print(id)
+        queryset = Vendor.objects.get(VendorID=id)
+        serializer_data = VendorSerializer(queryset ,many=False)
+        return Response(serializer_data.data)
+     
+
 #Damaged API ########################################
 @api_view(['GET'])
 def getdamagedlist(request):
@@ -163,9 +173,25 @@ def getAddrawmaterial(request):
         serializer_data = AddrawmaterialSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     
+@api_view(['GET'])
+def getrawmaterial(request,id):
+    if request.method == 'GET':
+        print(id)
+        queryset = Addrawmaterial.objects.get(Id=id)
+        serializer_data = AddrawmaterialSerializer(queryset ,many=False)
+        return Response(serializer_data.data)
+    
 @api_view(['POST'])
 def addRawmaterial(request):
     if request.method == 'POST':
+        max_value = Damaged.objects.aggregate(max_value=Max('DamgeID'))
+        max_value = max_value['max_value']+1
+        key_to_get = 'DamgeID'
+        request.data[key_to_get] = max_value
+        danaged_data = DamagedSerializer(data = request.data)
+        if danaged_data.is_valid():
+            danaged_data.save()
+            print(danaged_data)
         meterial_data = AddrawmaterialSerializer(data = request.data)
         if meterial_data.is_valid():
             meterial_data.save()
