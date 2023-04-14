@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import user,RawMaterial,Vendor,Damaged,Addrawmaterial
+from .models import user,RawMaterial,Vendor,Damaged,Addrawmaterial,Product,ProductDetails,PackingDetails,PackingMaterial
 # Register your models here.
 
 class Adminuser(admin.ModelAdmin):
@@ -17,9 +17,28 @@ class AdminDamaged(admin.ModelAdmin):
 
 class AdminAddrawmaterial(admin.ModelAdmin):
     list_display=(['Id','BatchNo','OrderedQuantity','ReceivedQuantity','AmountPaid','MaterialID','VendorID','DamgeID'])
+#----------------------
+class AdminProduct(admin.ModelAdmin):
+    list_display=(['ProductID','ProductCode','ProductName','QtyType','TotalQuantity','ConsumedQuantity'])
 
+class AdminProductDetails(admin.ModelAdmin):
+    list_display=(['Id','BatchNo','OrderedQuantity','ReceivedQuantity','AmountPaid','ProductID','VendorID','DamgeID'])
+#----------------------
+class AdminPacking(admin.ModelAdmin):
+    list_display=(['PackingMaterialID','PackingMaterialCode','PackingMaterialName','QtyType','TotalQuantity','ConsumedQuantity'])
+
+class AdminPackingDetails(admin.ModelAdmin):
+    list_display=(['Id','BatchNo','OrderedQuantity','ReceivedQuantity','AmountPaid','PackingMaterialID','VendorID','DamgeID'])
+
+######################################################################
 admin.site.register(user,Adminuser)
 admin.site.register(RawMaterial,Adminrawmeterial)
 admin.site.register(Vendor,AdminVendor)
 admin.site.register(Damaged,AdminDamaged)
 admin.site.register(Addrawmaterial,AdminAddrawmaterial)
+#----------------------
+admin.site.register(Product,AdminProduct)
+admin.site.register(ProductDetails,AdminProductDetails)
+#----------------------
+admin.site.register(PackingMaterial,AdminPacking)
+admin.site.register(PackingDetails,AdminPackingDetails)

@@ -68,3 +68,70 @@ class Addrawmaterial(models.Model):
 
     def __str__(self):
         return self.BatchNo
+    
+
+# product models==================================================
+class Product(models.Model):
+    ProductID = models.AutoField(primary_key=True)
+    ProductCode = models.CharField(max_length=255)
+    ProductName  = models.CharField(max_length=25)
+    QtyType = models.CharField(max_length=20 ,null=True, blank=True)
+    TotalQuantity = models.IntegerField(default=0)
+    ConsumedQuantity =  models.IntegerField(default=0,null=True, blank=True)
+    AddedTimestamp = models.DateTimeField(default=timezone.now)
+    UpdatedTimestamp = models.DateTimeField(default=timezone.now)
+
+    def __int__(self):
+            return self.ProductID
+    
+
+class ProductDetails(models.Model):
+    Id = models.AutoField(primary_key=True)
+    TransactionDate = models.DateTimeField(default=timezone.now)
+    BatchNo = models.CharField(max_length=25)
+    OrderedQuantity	= models.IntegerField()
+    ReceivedQuantity = models.IntegerField()
+    AmountPaid = models.IntegerField()
+    AddedTimestamp = models.DateTimeField(default=timezone.now)
+    UpdatedTimestamp = models.DateTimeField(default=timezone.now)
+    ProductID = models.ForeignKey('Product', on_delete=models.CASCADE)
+    VendorID = models.ForeignKey('Vendor', on_delete=models.CASCADE) 
+    DamgeID = models.ForeignKey('Damaged', on_delete=models.CASCADE) 
+
+    def __str__(self):
+        return self.BatchNo
+    
+
+
+
+# packingmaterial models==================================================
+class PackingMaterial(models.Model):
+    PackingMaterialID = models.AutoField(primary_key=True)
+    PackingMaterialCode = models.CharField(max_length=255)
+    PackingMaterialName  = models.CharField(max_length=25)
+    QtyType = models.CharField(max_length=20 ,null=True, blank=True)
+    TotalQuantity = models.IntegerField(default=0)
+    ConsumedQuantity =  models.IntegerField(default=0,null=True, blank=True)
+    AddedTimestamp = models.DateTimeField(default=timezone.now)
+    UpdatedTimestamp = models.DateTimeField(default=timezone.now)
+
+    def __int__(self):
+            return self.PackingMaterialID
+    
+
+class PackingDetails(models.Model):
+    Id = models.AutoField(primary_key=True)
+    TransactionDate = models.DateTimeField(default=timezone.now)
+    BatchNo = models.CharField(max_length=25)
+    OrderedQuantity	= models.IntegerField()
+    ReceivedQuantity = models.IntegerField()
+    AmountPaid = models.IntegerField()
+    AddedTimestamp = models.DateTimeField(default=timezone.now)
+    UpdatedTimestamp = models.DateTimeField(default=timezone.now)
+    PackingMaterialID = models.ForeignKey('PackingMaterial', on_delete=models.CASCADE)
+    VendorID = models.ForeignKey('Vendor', on_delete=models.CASCADE) 
+    DamgeID = models.ForeignKey('Damaged', on_delete=models.CASCADE) 
+
+    def __str__(self):
+        return self.BatchNo
+    

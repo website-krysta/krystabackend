@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Max
-from django.core import serializers
+
 
 # Create your jwt token .
 # import jwt 
@@ -88,7 +88,6 @@ def deleteUser(request,id):
 
 
 #Raw Meterial API ########################################
-
 
 @api_view(['GET','POST'])
 def getmaterials(request):

@@ -3,7 +3,10 @@ from django.urls import path
 from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmaterials,\
                   addmaterial,updatematerial,getmaterial,deletematerial,getvendorlist,\
                   addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,getdamagedlist,getrawmaterial
+                  
 
+from .productApi import addProduct,getProduct,addProductDetails
+from .packingApi import addPacking,getPacking,addPackingDetails
                      
 urlpatterns = [
     path('user/', UserList, name='userlist'),
@@ -27,6 +30,15 @@ urlpatterns = [
     #------addRawMaterial ------#   
     path('addRawmaterial/list/', getAddrawmaterial, name='getaddRawmaterial'),
     path('addRawmaterial/add/', addRawmaterial, name='addRawmaterial'),
-     path('addRawmaterial/<int:id>/', getrawmaterial, name='get_addRawmaterial '),
+    path('addRawmaterial/<int:id>/', getrawmaterial, name='get_addRawmaterial '),
+
+    #------product ------#   
+    path('product/list/', getProduct, name='getproduct'),
+    path('product/add/', addProduct, name='addproduct'),
+    path('product/ProductDetails/add/', addProductDetails, name='get_product_details '),
+    #------packing ------#   
+    path('packing/list/', getPacking, name='getpacking'),
+    path('packing/add/', addPacking, name='addpacking'),
+    path('packing/packingdetails/add/', addPackingDetails, name='addpackingdata '),
 
 ]
