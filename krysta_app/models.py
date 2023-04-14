@@ -150,3 +150,23 @@ class Labour(models.Model):
 
     def __int__(self):
         return self.ID
+
+
+
+# tbl_Formula		
+# Column	DataType	
+# ID	int	PrimaryKey
+# FormulaName	varchar(20)	
+# TotalMaterialsUsed	int	
+# FinalQuantity	numeric(10,3)	
+# AddedTimeStamp	datetime	
+# UpdatedTimeStamp	datetime	
+		
+# tbl_Formula_Materials		
+# Column	DataType	
+# ID	int	PrimaryKey
+# FormulaID	int	ForeignKey to ID in tbl_Formula
+# RawMaterialID	int	ForeignKey to MaterialID in tbl_RawMaterial
+# Quantity	numeric(8,3)	
+# AddedTimeStamp	datetime	
+# UpdatedTimeStamp	datetime	
