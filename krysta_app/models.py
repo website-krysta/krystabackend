@@ -135,3 +135,18 @@ class PackingDetails(models.Model):
     def __str__(self):
         return self.BatchNo
     
+
+#labour details
+
+class Labour(models.Model):
+    ID	= models.AutoField(primary_key=True)
+    TotalLabours	= models.IntegerField()
+    MorningShiftCount	= models.IntegerField()
+    NightShiftCount = models.IntegerField()
+    MorningShiftAmount =	models.DecimalField(max_digits=10, decimal_places=2)
+    NightShiftAmount =	models.DecimalField(max_digits=10, decimal_places=2)
+    AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
+    updatedTimeStamp	= models.DateTimeField(default=timezone.now)
+
+    def __int__(self):
+        return self.ID

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import user,RawMaterial,Vendor,Damaged,Addrawmaterial,Product,ProductDetails,PackingDetails,PackingMaterial
+from .models import user,RawMaterial,Vendor,Damaged,Addrawmaterial,Product,ProductDetails,PackingDetails,PackingMaterial,Labour
 # Register your models here.
 
 class Adminuser(admin.ModelAdmin):
@@ -29,7 +29,9 @@ class AdminPacking(admin.ModelAdmin):
 
 class AdminPackingDetails(admin.ModelAdmin):
     list_display=(['Id','BatchNo','OrderedQuantity','ReceivedQuantity','AmountPaid','PackingMaterialID','VendorID','DamgeID'])
-
+#----------------------
+class AdminLabour(admin.ModelAdmin):
+    list_display=(['ID','TotalLabours','MorningShiftCount','NightShiftCount','MorningShiftAmount','NightShiftAmount','AddedTimeStamp'])
 ######################################################################
 admin.site.register(user,Adminuser)
 admin.site.register(RawMaterial,Adminrawmeterial)
@@ -42,3 +44,5 @@ admin.site.register(ProductDetails,AdminProductDetails)
 #----------------------
 admin.site.register(PackingMaterial,AdminPacking)
 admin.site.register(PackingDetails,AdminPackingDetails)
+#----------------------
+admin.site.register(Labour,AdminLabour)

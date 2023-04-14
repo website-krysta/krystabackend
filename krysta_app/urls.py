@@ -7,6 +7,7 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
 
 from .productApi import addProduct,getProduct,addProductDetails
 from .packingApi import addPacking,getPacking,addPackingDetails
+from .labour import addLabour,getLabour
                      
 urlpatterns = [
     path('user/', UserList, name='userlist'),
@@ -40,5 +41,8 @@ urlpatterns = [
     path('packing/list/', getPacking, name='getpacking'),
     path('packing/add/', addPacking, name='addpacking'),
     path('packing/packingdetails/add/', addPackingDetails, name='addpackingdata '),
-
+    #------labour ------#   
+    path('labour/list/', getLabour, name='getlabour'),
+    path('labour/add/', addLabour, name='addlabour'),
+   
 ]
