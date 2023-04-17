@@ -136,7 +136,7 @@ class PackingDetails(models.Model):
         return self.BatchNo
     
 
-#labour details
+#labour detailsssss
 
 class Labour(models.Model):
     ID	= models.AutoField(primary_key=True)
