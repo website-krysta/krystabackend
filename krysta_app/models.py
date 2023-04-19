@@ -168,21 +168,18 @@ class Invoice(models.Model):
         return self.ID
 
 
+class Formula(models.Model):		
+    ID	= models.AutoField(primary_key=True)
+    FormulaName  = models.CharField(max_length=20)
+    TotalMaterialsUsed = models.IntegerField()
+    AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
+    UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
 
-# tbl_Formula		
-# Column	DataType	
-# ID	int	PrimaryKey
-# FormulaName	varchar(20)	
-# TotalMaterialsUsed	int	
-# FinalQuantity	numeric(10,3)	
-# AddedTimeStamp	datetime	
-# UpdatedTimeStamp	datetime	
 		
-# tbl_Formula_Materials		
-# Column	DataType	
-# ID	int	PrimaryKey
-# FormulaID	int	ForeignKey to ID in tbl_Formula
-# RawMaterialID	int	ForeignKey to MaterialID in tbl_RawMaterial
-# Quantity	numeric(8,3)	
-# AddedTimeStamp	datetime	
-# UpdatedTimeStamp	datetime	
+class FormulaMaterials(models.Model):
+    ID	= models.AutoField(primary_key=True)
+    Quantity = 	models.DecimalField(max_digits=10, decimal_places=2)
+    RawMaterialID = models.ForeignKey('RawMaterial', on_delete=models.CASCADE)
+    FormulaID = models.ForeignKey('Formula', on_delete=models.CASCADE)
+    AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
+    UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
