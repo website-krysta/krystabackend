@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import user,RawMaterial,Vendor,Damaged,Addrawmaterial,Product,ProductDetails,PackingDetails,PackingMaterial,Labour
+from .models import user,RawMaterial,Vendor,Damaged,Addrawmaterial,Product,ProductDetails,PackingDetails,PackingMaterial,\
+                    Labour,Invoice
 # Register your models here.
 
 class Adminuser(admin.ModelAdmin):
@@ -16,22 +17,25 @@ class AdminDamaged(admin.ModelAdmin):
 
 
 class AdminAddrawmaterial(admin.ModelAdmin):
-    list_display=(['Id','BatchNo','OrderedQuantity','ReceivedQuantity','AmountPaid','MaterialID','VendorID','DamgeID'])
+    list_display=(['Id','BatchNo','OrderedQuantity','ReceivedQuantity','MaterialID','VendorID','DamgeID','InvoiceID'])
 #----------------------
 class AdminProduct(admin.ModelAdmin):
     list_display=(['ProductID','ProductCode','ProductName','QtyType','TotalQuantity','ConsumedQuantity'])
 
 class AdminProductDetails(admin.ModelAdmin):
-    list_display=(['Id','BatchNo','OrderedQuantity','ReceivedQuantity','AmountPaid','ProductID','VendorID','DamgeID'])
+    list_display=(['Id','BatchNo','OrderedQuantity','ReceivedQuantity','ProductID','VendorID','DamgeID','InvoiceID'])
 #----------------------
 class AdminPacking(admin.ModelAdmin):
     list_display=(['PackingMaterialID','PackingMaterialCode','PackingMaterialName','QtyType','TotalQuantity','ConsumedQuantity'])
 
 class AdminPackingDetails(admin.ModelAdmin):
-    list_display=(['Id','BatchNo','OrderedQuantity','ReceivedQuantity','AmountPaid','PackingMaterialID','VendorID','DamgeID'])
+    list_display=(['Id','BatchNo','OrderedQuantity','ReceivedQuantity','PackingMaterialID','VendorID','DamgeID','InvoiceID'])
 #----------------------
 class AdminLabour(admin.ModelAdmin):
     list_display=(['ID','TotalLabours','MorningShiftCount','NightShiftCount','MorningShiftAmount','NightShiftAmount','AddedTimeStamp'])
+#----------------------
+class AdminInvoice(admin.ModelAdmin):
+    list_display=(['ID','InvoiceNumber','InwardNumber','InvoiceDate','RecievedDate','VendorID','AddedTimeStamp'])
 ######################################################################
 admin.site.register(user,Adminuser)
 admin.site.register(RawMaterial,Adminrawmeterial)
@@ -46,3 +50,5 @@ admin.site.register(PackingMaterial,AdminPacking)
 admin.site.register(PackingDetails,AdminPackingDetails)
 #----------------------
 admin.site.register(Labour,AdminLabour)
+#----------------------
+admin.site.register(Invoice,AdminInvoice)

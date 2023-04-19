@@ -74,11 +74,11 @@ CORS_ORIGIN_ALLOW_ALL = True
 #     'x-csrftoken',
 #     'x-requested-with',
 # ]
-CORS_ORIGIN_WHITELIST = ["https://website-krysta.github.io"]
-# CORS_ORIGIN_WHITELIST = (
-#     'http://localhost:3000',
-#     'https://website-krysta.github.io/krystafrontend'
-# )
+# CORS_ORIGIN_WHITELIST = ["https://website-krysta.github.io"]
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+    # 'https://website-krysta.github.io/krystafrontend'
+)
    
 ROOT_URLCONF = 'krystabackend.urls'
 

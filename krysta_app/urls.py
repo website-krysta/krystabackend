@@ -2,7 +2,8 @@
 from django.urls import path
 from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmaterials,\
                   addmaterial,updatematerial,getmaterial,deletematerial,getvendorlist,\
-                  addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,getdamagedlist,getrawmaterial
+                  addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,\
+                  getdamagedlist,getrawmaterial,getinvoices,addinvoice
                   
 
 from .productApi import addProduct,getProduct,addProductDetails
@@ -44,5 +45,8 @@ urlpatterns = [
     #------labour ------#   
     path('labour/list/', getLabour, name='getlabour'),
     path('labour/add/', addLabour, name='addlabour'),
+      #------labour ------#   
+    path('invoice/list/', getinvoices, name='getinvoice'),
+    path('invoice/add/', addinvoice, name='addinvoice'),
    
 ]

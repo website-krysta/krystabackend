@@ -15,9 +15,9 @@ import datetime
 
 
 from rest_framework import generics
-from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial
+from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial,Invoice
 from .serializers import UserSerializer,meterialSerializer,VendorSerializer,AddrawmaterialSerializer,\
-                         DamagedSerializer
+                         DamagedSerializer,InvoiceSerializer
 
 
 current_date = datetime.datetime.now().date()
@@ -150,7 +150,6 @@ def addvendor(request):
 @api_view(['GET'])
 def getvendor(request,id):
     if request.method == 'GET':
-        print(id)
         queryset = Vendor.objects.get(VendorID=id)
         serializer_data = VendorSerializer(queryset ,many=False)
         return Response(serializer_data.data)
@@ -224,3 +223,40 @@ def addRawmaterial(request):
             meterial_data.save()
             return Response(meterial_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(meterial_data.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+#invoiceAPI ########################################
+
+@api_view(['GET'])
+def getinvoices(request):
+    if request.method == 'GET':
+        queryset = Invoice.objects.all()
+        serializer_data = InvoiceSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
+    
+@api_view(['POST'])
+def addinvoice(request):
+    if request.method == 'POST':
+        max_value = Invoice.objects.aggregate(max_value=Max('ID'))
+        max_value = max_value['max_value']+1
+        key_to_get = 'ID'
+        request.data[key_to_get] = max_value
+        id = request.data['VendorID']
+        vendordata = Vendor.objects.get(VendorID=id)
+        invoice_date = request.data['InvoiceDate']
+        date_obj = date_obj = datetime.datetime.strptime(invoice_date, "%Y-%m-%d")
+        formatted_date_str = date_obj.strftime("%d-%b-%Y")
+        data_string = formatted_date_str.replace('-', '')
+        inwardno = 'InwardNumber'
+        request.data[inwardno] = f"{data_string}-{vendordata.VendorCode}"  
+        get_add_time = 'AddedTimeStamp'
+        request.data[get_add_time] = current_date_time
+        get_update_time = 'UpdatedTimeStamp'
+        request.data[get_update_time] = current_date_time
+
+        invoice_data = InvoiceSerializer(data = request.data)
+        if invoice_data.is_valid():
+            invoice_data.save()
+            print(invoice_data)
+            return Response(invoice_data.initial_data, status=status.HTTP_201_CREATED)
+        return Response(invoice_data.errors, status=status.HTTP_400_BAD_REQUEST)

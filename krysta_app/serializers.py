@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import user,RawMaterial,Vendor,Addrawmaterial,Damaged,Product,ProductDetails,PackingMaterial,\
-                   PackingDetails,Labour
+                   PackingDetails,Labour,Invoice
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = user
@@ -49,4 +49,9 @@ class PackingDetailsSerializer(serializers.ModelSerializer):
 class LabourSerializer(serializers.ModelSerializer):
     class Meta:
         model = Labour
+        fields = '__all__'
+
+class InvoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Invoice
         fields = '__all__'
