@@ -169,7 +169,7 @@ class Invoice(models.Model):
 
 
 class Formula(models.Model):		
-    ID	= models.AutoField(primary_key=True)
+    ID	= models.IntegerField(primary_key=True)
     FormulaName  = models.CharField(max_length=20)
     TotalMaterialsUsed = models.IntegerField()
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)

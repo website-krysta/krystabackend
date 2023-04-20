@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import user,RawMaterial,Vendor,Damaged,Addrawmaterial,Product,ProductDetails,PackingDetails,PackingMaterial,\
-                    Labour,Invoice
+                    Labour,Invoice,Formula,FormulaMaterials
 # Register your models here.
 
 class Adminuser(admin.ModelAdmin):
@@ -36,6 +36,13 @@ class AdminLabour(admin.ModelAdmin):
 #----------------------
 class AdminInvoice(admin.ModelAdmin):
     list_display=(['ID','InvoiceNumber','InwardNumber','InvoiceDate','RecievedDate','VendorID','AddedTimeStamp'])
+
+#----------------------
+class AdminFormula(admin.ModelAdmin):
+    list_display=(['ID','FormulaName','TotalMaterialsUsed','AddedTimeStamp','UpdatedTimeStamp'])
+#----------------------
+class AdminFormulaMaterial(admin.ModelAdmin):
+    list_display=(['ID','Quantity','RawMaterialID','FormulaID','AddedTimeStamp','UpdatedTimeStamp'])
 ######################################################################
 admin.site.register(user,Adminuser)
 admin.site.register(RawMaterial,Adminrawmeterial)
@@ -52,3 +59,6 @@ admin.site.register(PackingDetails,AdminPackingDetails)
 admin.site.register(Labour,AdminLabour)
 #----------------------
 admin.site.register(Invoice,AdminInvoice)
+#----------------------
+admin.site.register(Formula,AdminFormula)
+admin.site.register(FormulaMaterials,AdminFormulaMaterial)

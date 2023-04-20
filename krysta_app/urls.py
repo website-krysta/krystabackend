@@ -9,6 +9,7 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
 from .productApi import addProduct,getProduct,addProductDetails
 from .packingApi import addPacking,getPacking,addPackingDetails
 from .labour import addLabour,getLabour
+from .formula import getformula,addformula,getformulamaterial,addformulamaterial
                      
 urlpatterns = [
     path('user/', UserList, name='userlist'),
@@ -45,8 +46,14 @@ urlpatterns = [
     #------labour ------#   
     path('labour/list/', getLabour, name='getlabour'),
     path('labour/add/', addLabour, name='addlabour'),
-      #------labour ------#   
+    #------labour ------#   
     path('invoice/list/', getinvoices, name='getinvoice'),
     path('invoice/add/', addinvoice, name='addinvoice'),
+    #------formula ------#   
+    path('formula/list/', getformula, name='getformula'),
+    path('formula/add/', addformula, name='addformula'),
+    path('formulamaterial/list/', getformulamaterial, name='getformula_material'),
+    path('formulamaterial/add/', addformulamaterial, name='addformula_material'),
+   
    
 ]
