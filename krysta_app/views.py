@@ -9,6 +9,7 @@ from django.db.models import Max
 
 # Create your jwt token .
 # import jwt 
+# from jose import jwt 
 from django.conf import settings
 import datetime
 
@@ -43,6 +44,11 @@ def UserList(request):
                         # Generate the JWT token
                         # token_data_obj = user.objects.get(UserID=userdata.initial_data['EmailID'])
                         # token = jwt.encode(token_data_obj, settings.SECRET_KEY, algorithm='HS256')
+                    
+                        #audir app
+                        # encoded_jwt = jwt.encode(
+                        #     {"exp": exp, "nbf": now, "sub": email}, settings.SECRET_KEY, algorithm="HS256",
+                        # )
                         return Response(userdata.initial_data, status=status.HTTP_200_OK)
                         
                         

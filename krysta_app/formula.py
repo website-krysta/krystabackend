@@ -10,6 +10,7 @@ from django.core import serializers
 import json
 # Create your jwt token .
 # import jwt 
+# from jose import jwt
 from django.conf import settings
 import datetime
 
@@ -40,7 +41,7 @@ def addformula(request):
 
         formula_name = request.data['formulaname']['FormulaName']
         del request.data['formulaname']["FormulaName"]
-        count_of_material = len(request.data['formulaname'])
+        count_of_material = len(request.data['formulaname'])   
         mtqty= request.data['formulaname']  
         material_qty  = list(mtqty.values())
         #formula add
