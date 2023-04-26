@@ -68,7 +68,7 @@ class Addrawmaterial(models.Model):
     InvoiceID = models.ForeignKey('Invoice', on_delete=models.CASCADE,default=1) 
 
     def __str__(self):
-        return self.BatchNo
+        return self.Id
     
 
 # product models==================================================

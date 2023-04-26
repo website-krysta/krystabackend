@@ -193,7 +193,16 @@ def getrawmaterial(request,id):
         queryset = Addrawmaterial.objects.get(Id=id)
         serializer_data = AddrawmaterialSerializer(queryset ,many=False)
         return Response(serializer_data.data)
+
     
+@api_view(['GET'])
+def getrawmaterialStock(request,id):
+    if request.method == 'GET':
+        queryset = Addrawmaterial.objects.filter(MaterialID=id)
+        serializer_data = AddrawmaterialSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
+    
+
 @api_view(['POST'])
 def addRawmaterial(request):
     if request.method == 'POST':
@@ -239,7 +248,14 @@ def getinvoices(request):
         queryset = Invoice.objects.all()
         serializer_data = InvoiceSerializer(queryset ,many=True)
         return Response(serializer_data.data)
-    
+
+@api_view(['GET'])
+def getInvoiceData(request,id):
+    if request.method == 'GET':
+        queryset = Invoice.objects.get(ID=id)
+        serializer_data = InvoiceSerializer(queryset)
+        return Response(serializer_data.data)
+
 @api_view(['POST'])
 def addinvoice(request):
     if request.method == 'POST':

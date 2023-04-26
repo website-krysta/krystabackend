@@ -3,8 +3,7 @@ from django.urls import path
 from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmaterials,\
                   addmaterial,updatematerial,getmaterial,deletematerial,getvendorlist,\
                   addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,\
-                  getdamagedlist,getrawmaterial,getinvoices,addinvoice
-                  
+                  getdamagedlist,getrawmaterial,getinvoices,addinvoice,getInvoiceData,getrawmaterialStock        
 
 from .productApi import addProduct,getProduct,addProductDetails
 from .packingApi import addPacking,getPacking,addPackingDetails
@@ -34,6 +33,7 @@ urlpatterns = [
     path('addRawmaterial/list/', getAddrawmaterial, name='getaddRawmaterial'),
     path('addRawmaterial/add/', addRawmaterial, name='addRawmaterial'),
     path('addRawmaterial/<int:id>/', getrawmaterial, name='get_addRawmaterial '),
+    path('RawmaterialStock/<int:id>/', getrawmaterialStock, name='get_RawmaterialStock '),
 
     #------product ------#   
     path('product/list/', getProduct, name='getproduct'),
@@ -49,6 +49,7 @@ urlpatterns = [
     #------labour ------#   
     path('invoice/list/', getinvoices, name='getinvoice'),
     path('invoice/add/', addinvoice, name='addinvoice'),
+    path('invoce/getinvoice/<int:id>/', getInvoiceData, name='get_invoiceData '),
     #------formula ------#   
     path('formula/list/', getformula, name='getformula'),
     path('formula/add/', addformula, name='addformula'),
