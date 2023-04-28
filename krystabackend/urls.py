@@ -16,7 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 
+# from rest_framework import routers
+# from krysta_app.views import MaterialViewSet
+# router = routers.DefaultRouter()
+# router.register('joinmaterTable', MaterialViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('krysta_app.urls'))
+    path('api/', include('krysta_app.urls')),
+    # path('api2/', include(router.urls)),
 ]

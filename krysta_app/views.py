@@ -1,6 +1,6 @@
 
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,12 +13,13 @@ from django.db.models import Max
 from django.conf import settings
 import datetime
 
-
+# views.py
+from rest_framework import generics
 
 from rest_framework import generics
 from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial,Invoice
 from .serializers import UserSerializer,meterialSerializer,VendorSerializer,AddrawmaterialSerializer,\
-                         DamagedSerializer,InvoiceSerializer
+                         DamagedSerializer,InvoiceSerializer,joinmaterialSerializer
 
 
 current_date = datetime.datetime.now().date()
@@ -125,8 +126,8 @@ def updatematerial(request,id):
 @api_view(['GET'])
 def getmaterial(request,id):
     if request.method == 'GET':
-        queryset = RawMaterial.objects.get(MaterialID=id)
-        serializer_data = meterialSerializer(queryset ,many=False)
+        queryset = RawMaterial.objects.filter(MaterialID=id)
+        serializer_data = meterialSerializer(queryset ,many=True)
         return Response(serializer_data.data)
      
 @api_view(['DELETE'])
@@ -202,6 +203,14 @@ def getrawmaterialStock(request,id):
         serializer_data = AddrawmaterialSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     
+ #this api is useing  in stock module  
+@api_view(['GET'])
+def getrawmaterial_list(request,id):
+    if request.method == 'GET':
+        queryset = Addrawmaterial.objects.filter(Id=id)
+        serializer_data = AddrawmaterialSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
+        
 
 @api_view(['POST'])
 def addRawmaterial(request):
@@ -252,16 +261,16 @@ def getinvoices(request):
 @api_view(['GET'])
 def getInvoiceData(request,id):
     if request.method == 'GET':
-        queryset = Invoice.objects.get(ID=id)
+        queryset = Invoice.objects.get(InvoiceID=id)
         serializer_data = InvoiceSerializer(queryset)
         return Response(serializer_data.data)
 
 @api_view(['POST'])
 def addinvoice(request):
     if request.method == 'POST':
-        max_value = Invoice.objects.aggregate(max_value=Max('ID'))
+        max_value = Invoice.objects.aggregate(max_value=Max('InvoiceID'))
         max_value = max_value['max_value']+1
-        key_to_get = 'ID'
+        key_to_get = 'InvoiceID'
         request.data[key_to_get] = max_value
         id = request.data['VendorID']
         vendordata = Vendor.objects.get(VendorID=id)
@@ -282,3 +291,29 @@ def addinvoice(request):
             print(invoice_data)
             return Response(invoice_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(invoice_data.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+# join tables views
+
+from rest_framework import generics
+class MaterialViewSet(generics.ListCreateAPIView):
+    queryset =Addrawmaterial.objects.all()
+    serializer_class = joinmaterialSerializer
+    lookup_field = 'MaterialID'
+
+
+from rest_framework.generics import RetrieveAPIView
+class materialDetail(RetrieveAPIView):
+    queryset =Addrawmaterial.objects.all()
+    serializer_class = joinmaterialSerializer
+    lookup_field = 'MaterialID'
+
+    # def get_object(self):
+    #     lookup_value = self.kwargs.get(self.lookup_field)
+    #     queryset = self.filter_queryset(self.get_queryset())
+    #     # queryset = queryset.filter(**{self.lookup_field: lookup_value})
+    #     queryset =Addrawmaterial.objects.filter(MaterialID=lookup_value)
+    #     if not queryset:
+    #         raise Http404
+    #     return queryset
+       

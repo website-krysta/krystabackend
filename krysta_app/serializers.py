@@ -64,3 +64,35 @@ class FormulaMaterialsSerializer(serializers.ModelSerializer):
     class Meta:
         model = FormulaMaterials
         fields = '__all__'
+
+# joing three tables
+
+class StockmateriaListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RawMaterial
+        fields = ['MaterialID','MaterialCode','MaterialName','QtyType']
+
+class StockDamagedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Damaged
+        fields = ['DamgeID','DamagedQty','DamagedResion','LossofAmount']
+
+class StockvednorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vendor
+        fields = ['VendorID','VendorName']
+
+class StockinvoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Invoice
+        fields = ['InvoiceID','InwardNumber']
+   
+class joinmaterialSerializer(serializers.ModelSerializer):
+    Material = StockmateriaListSerializer(source='MaterialID')
+    Damaged =  StockDamagedSerializer(source='DamgeID')
+    Vendor = StockvednorSerializer(source='VendorID')
+    invoice  = StockinvoiceSerializer(source='InvoiceID')
+    class Meta:
+        model = Addrawmaterial
+        fields = ['Id','MaterialID','BatchNo','OrderedQuantity','ReceivedQuantity','AddedTimestamp','AmountPaid','Material','Damaged','Vendor','invoice']
+        

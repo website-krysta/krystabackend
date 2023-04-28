@@ -3,13 +3,18 @@ from django.urls import path
 from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmaterials,\
                   addmaterial,updatematerial,getmaterial,deletematerial,getvendorlist,\
                   addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,\
-                  getdamagedlist,getrawmaterial,getinvoices,addinvoice,getInvoiceData,getrawmaterialStock        
+                  getdamagedlist,getrawmaterial,getinvoices,addinvoice,getInvoiceData,getrawmaterialStock ,\
+                  MaterialViewSet ,materialDetail,getrawmaterial_list     
 
 from .productApi import addProduct,getProduct,addProductDetails
 from .packingApi import addPacking,getPacking,addPackingDetails
 from .labour import addLabour,getLabour
 from .formula import getformula,addformula,getformulamaterial,addformulamaterial
-                     
+
+
+# router = routers.DefaultRouter()
+# router.register(r'modela', MaterialViewSet)    
+
 urlpatterns = [
     path('user/', UserList, name='userlist'),
     path('useradd/', Useradd, name='useradd'),
@@ -34,6 +39,7 @@ urlpatterns = [
     path('addRawmaterial/add/', addRawmaterial, name='addRawmaterial'),
     path('addRawmaterial/<int:id>/', getrawmaterial, name='get_addRawmaterial '),
     path('RawmaterialStock/<int:id>/', getrawmaterialStock, name='get_RawmaterialStock '),
+    path('rawmaterial_item/<int:id>/', getrawmaterial_list, name='rawmaterial_item '),
 
     #------product ------#   
     path('product/list/', getProduct, name='getproduct'),
@@ -55,6 +61,8 @@ urlpatterns = [
     path('formula/add/', addformula, name='addformula'),
     path('formulamaterial/list/', getformulamaterial, name='getformula_material'),
     path('formulamaterial/add/', addformulamaterial, name='addformula_material'),
-   
-   
+
+    #-----join tables ------#  
+    path('materialviewSet/', MaterialViewSet.as_view()),
+    path('materialdetails/<int:MaterialID>/', materialDetail.as_view(), name='material-list'),
 ]

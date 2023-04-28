@@ -35,7 +35,7 @@ class AdminLabour(admin.ModelAdmin):
     list_display=(['ID','TotalLabours','MorningShiftCount','NightShiftCount','MorningShiftAmount','NightShiftAmount','AddedTimeStamp'])
 #----------------------
 class AdminInvoice(admin.ModelAdmin):
-    list_display=(['ID','InvoiceNumber','InwardNumber','InvoiceDate','RecievedDate','VendorID','AddedTimeStamp'])
+    list_display=(['InvoiceID','InvoiceNumber','InwardNumber','InvoiceDate','RecievedDate','VendorID','AddedTimeStamp'])
 
 #----------------------
 class AdminFormula(admin.ModelAdmin):

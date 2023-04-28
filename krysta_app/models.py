@@ -67,8 +67,8 @@ class Addrawmaterial(models.Model):
     DamgeID = models.ForeignKey('Damaged', on_delete=models.CASCADE) 
     InvoiceID = models.ForeignKey('Invoice', on_delete=models.CASCADE,default=1) 
 
-    def __str__(self):
-        return self.Id
+    def __int__(self):
+        return self.MaterialID
     
 
 # product models==================================================
@@ -155,7 +155,7 @@ class Labour(models.Model):
         return self.ID
     
 class Invoice(models.Model):
-    ID = models.IntegerField(primary_key=True)
+    InvoiceID = models.IntegerField(primary_key=True)
     InvoiceNumber =	models.CharField(max_length=10)
     InwardNumber  = models.CharField(max_length=20)
     InvoiceDate   = models.DateField()
@@ -165,7 +165,7 @@ class Invoice(models.Model):
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
 
     def __int__(self):
-        return self.ID
+        return self.InvoiceID
 
 
 class Formula(models.Model):		
@@ -183,3 +183,5 @@ class FormulaMaterials(models.Model):
     FormulaID = models.ForeignKey('Formula', on_delete=models.CASCADE)
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
+
+
