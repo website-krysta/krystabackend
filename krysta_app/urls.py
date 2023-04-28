@@ -9,7 +9,7 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
 from .productApi import addProduct,getProduct,addProductDetails
 from .packingApi import addPacking,getPacking,addPackingDetails
 from .labour import addLabour,getLabour
-from .formula import getformula,addformula,getformulamaterial,addformulamaterial
+from .formula import getformula,addformula,getformulamaterial,addformulamaterial,getformula_ID_Data
 
 
 # router = routers.DefaultRouter()
@@ -61,6 +61,7 @@ urlpatterns = [
     path('formula/add/', addformula, name='addformula'),
     path('formulamaterial/list/', getformulamaterial, name='getformula_material'),
     path('formulamaterial/add/', addformulamaterial, name='addformula_material'),
+    path('formulamaterialiitems/<int:id>/', getformula_ID_Data, name='formulamaterialiitems'),
 
     #-----join tables ------#  
     path('materialviewSet/', MaterialViewSet.as_view()),

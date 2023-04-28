@@ -102,6 +102,14 @@ def getformulamaterial(request):
         serializer_data = FormulaMaterialsSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     
+@api_view(['GET'])
+def getformula_ID_Data(request,id):
+    if request.method == 'GET':
+        queryset = FormulaMaterials.objects.filter(FormulaID=id)
+        serializer_data = FormulaMaterialsSerializer(queryset, many=True)
+        return Response(serializer_data.data)
+
+    
 @api_view(['POST'])
 def addformulamaterial(request):
     if request.method == 'POST':
