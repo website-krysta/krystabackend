@@ -39,10 +39,10 @@ class AdminInvoice(admin.ModelAdmin):
 
 #----------------------
 class AdminFormula(admin.ModelAdmin):
-    list_display=(['ID','FormulaName','TotalMaterialsUsed','AddedTimeStamp','UpdatedTimeStamp'])
+    list_display=(['FormulaID','FormulaName','TotalMaterialsUsed','AddedTimeStamp','UpdatedTimeStamp'])
 #----------------------
 class AdminFormulaMaterial(admin.ModelAdmin):
-    list_display=(['ID','Quantity','RawMaterialID','FormulaID','AddedTimeStamp','UpdatedTimeStamp'])
+    list_display=(['ID','Quantity','MaterialID','FormulaID','AddedTimeStamp','UpdatedTimeStamp'])
 ######################################################################
 admin.site.register(user,Adminuser)
 admin.site.register(RawMaterial,Adminrawmeterial)

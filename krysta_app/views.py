@@ -17,9 +17,9 @@ import datetime
 from rest_framework import generics
 
 from rest_framework import generics
-from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial,Invoice
+from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial,Invoice,FormulaMaterials
 from .serializers import UserSerializer,meterialSerializer,VendorSerializer,AddrawmaterialSerializer,\
-                         DamagedSerializer,InvoiceSerializer,joinmaterialSerializer
+                         DamagedSerializer,InvoiceSerializer,joinmaterialSerializer,joinProductionFormulaSerializer
 
 
 current_date = datetime.datetime.now().date()
@@ -317,3 +317,8 @@ class materialDetail(RetrieveAPIView):
     #         raise Http404
     #     return queryset
        
+#fro formula productions 
+class ProductionMaterialViewSet(generics.ListCreateAPIView):
+    queryset =FormulaMaterials.objects.all()
+    serializer_class = joinProductionFormulaSerializer
+    # lookup_field = 'MaterialID'

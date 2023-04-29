@@ -65,7 +65,7 @@ class FormulaMaterialsSerializer(serializers.ModelSerializer):
         model = FormulaMaterials
         fields = '__all__'
 
-# joing three tables
+# joing three tables for 
 
 class StockmateriaListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -95,4 +95,29 @@ class joinmaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Addrawmaterial
         fields = ['Id','MaterialID','BatchNo','OrderedQuantity','ReceivedQuantity','AddedTimestamp','AmountPaid','Material','Damaged','Vendor','invoice']
+        
+# joing three tables for production 
+
+# class productionformula_materialSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = FormulaMaterials
+#         fields = ['ID','Quantity','MaterialID','FormulaID']
+
+class productionfor_materialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RawMaterial
+        fields = ['MaterialID','MaterialCode','MaterialName','TotalQuantity','ConsumedQuantity','QtyType']
+
+class ProductionFormulaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Formula
+        fields = ['FormulaID','FormulaName']
+
+class joinProductionFormulaSerializer(serializers.ModelSerializer):
+    material =  productionfor_materialSerializer(source='MaterialID')
+    forumula = ProductionFormulaSerializer(source='FormulaID')
+    
+    class Meta:
+        model = FormulaMaterials
+        fields = ['ID','Quantity','MaterialID','FormulaID','material','forumula']
         

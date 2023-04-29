@@ -36,7 +36,7 @@ def getformula(request):
 @api_view(['POST'])
 def addformula(request):
     if request.method == 'POST':
-        max_value = Formula.objects.aggregate(max_value=Max('ID'))
+        max_value = Formula.objects.aggregate(max_value=Max('FormulaID'))
         max_value = max_value['max_value']+1
 
         formula_name = request.data['formulaname']['FormulaName']
@@ -46,14 +46,14 @@ def addformula(request):
         material_qty  = list(mtqty.values())
         #formula add
         formula = {
-        'ID': 0,
+        'FormulaID': 0,
         'FormulaName': '',
         'TotalMaterialsUsed':'',
         'AddedTimeStamp': '',
         'UpdatedTimeStamp': ''
         }
 
-        formula['ID'] = max_value
+        formula['FormulaID'] = max_value
         formula['FormulaName']= formula_name
         formula['TotalMaterialsUsed']= count_of_material
         formula['AddedTimeStamp']= "2023-04-19T06:10:14Z"
@@ -63,14 +63,14 @@ def addformula(request):
 
         for x, y in zip(request.data['materialiData'],material_qty):
             mid = x['materialid']
-            qty = y[0]
+            qty = y
             #formula with material
             formula_material = {
             "ID": 0,
             "Quantity": "",
             "AddedTimeStamp": "2023-04-20T07:58:34Z",
             "UpdatedTimeStamp": "2023-04-20T07:58:34Z",
-            "RawMaterialID": 1,
+            "MaterialID": 1,
             "FormulaID": 1
             }
 
@@ -78,7 +78,7 @@ def addformula(request):
             formula_material['Quantity']= qty
             formula_material['AddedTimeStamp']= "2023-04-19T06:10:14Z"
             formula_material['UpdatedTimeStamp']= "2023-04-19T06:10:14Z"
-            formula_material['RawMaterialID']= mid
+            formula_material['MaterialID']= mid
             formula_material['FormulaID']= max_value
             aFormula_obj.append(formula_material)
 

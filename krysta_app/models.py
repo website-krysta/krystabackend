@@ -167,9 +167,9 @@ class Invoice(models.Model):
     def __int__(self):
         return self.InvoiceID
 
-
+     
 class Formula(models.Model):		
-    ID	= models.IntegerField(primary_key=True)
+    FormulaID	= models.IntegerField(primary_key=True)
     FormulaName  = models.CharField(max_length=20)
     TotalMaterialsUsed = models.IntegerField()
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
@@ -179,7 +179,7 @@ class Formula(models.Model):
 class FormulaMaterials(models.Model):
     ID	= models.AutoField(primary_key=True)
     Quantity = 	models.DecimalField(max_digits=10, decimal_places=2)
-    RawMaterialID = models.ForeignKey('RawMaterial', on_delete=models.CASCADE)
+    MaterialID = models.ForeignKey('RawMaterial', on_delete=models.CASCADE)
     FormulaID = models.ForeignKey('Formula', on_delete=models.CASCADE)
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)

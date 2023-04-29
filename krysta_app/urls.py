@@ -4,7 +4,7 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
                   addmaterial,updatematerial,getmaterial,deletematerial,getvendorlist,\
                   addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,\
                   getdamagedlist,getrawmaterial,getinvoices,addinvoice,getInvoiceData,getrawmaterialStock ,\
-                  MaterialViewSet ,materialDetail,getrawmaterial_list     
+                  MaterialViewSet ,materialDetail,getrawmaterial_list ,ProductionMaterialViewSet    
 
 from .productApi import addProduct,getProduct,addProductDetails
 from .packingApi import addPacking,getPacking,addPackingDetails
@@ -66,4 +66,7 @@ urlpatterns = [
     #-----join tables ------#  
     path('materialviewSet/', MaterialViewSet.as_view()),
     path('materialdetails/<int:MaterialID>/', materialDetail.as_view(), name='material-list'),
+     #-----join tables for production for show formulas ------#  
+    path('formulaviewSet/', ProductionMaterialViewSet.as_view()),
+   
 ]
