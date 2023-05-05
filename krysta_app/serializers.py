@@ -81,29 +81,34 @@ class ProductionDetailsSerializer(serializers.ModelSerializer):
 class PaackingDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductionPacking
-        fields = '__all__'        
-# joing three tables for 
+        fields = '__all__'     
 
+# joing three tables for 
+#raw material Table
 class StockmateriaListSerializer(serializers.ModelSerializer):
     class Meta:
         model = RawMaterial
         fields = ['MaterialID','MaterialCode','MaterialName','QtyType']
 
+#damaged Table
 class StockDamagedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Damaged
         fields = ['DamgeID','DamagedQty','DamagedResion','LossofAmount']
 
+#vendor Table
 class StockvednorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
         fields = ['VendorID','VendorName']
 
+#invoice Table
 class StockinvoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
         fields = ['InvoiceID','InwardNumber']
-   
+
+ #add rawmaterial table  
 class joinmaterialSerializer(serializers.ModelSerializer):
     Material = StockmateriaListSerializer(source='MaterialID')
     Damaged =  StockDamagedSerializer(source='DamgeID')
@@ -114,11 +119,50 @@ class joinmaterialSerializer(serializers.ModelSerializer):
         fields = ['Id','MaterialID','BatchNo','OrderedQuantity','ReceivedQuantity','AddedTimestamp','AmountPaid','Material','Damaged','Vendor','invoice']
         
 # joing three tables for production 
+class StockProddutionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['ProductID','ProductCode','ProductName','QtyType']
 
-# class productionformula_materialSerializer(serializers.ModelSerializer):
+class joinProductionSerializer(serializers.ModelSerializer):
+    Production = StockProddutionSerializer(source='ProductID')
+    Damaged =  StockDamagedSerializer(source='DamgeID')
+    Vendor = StockvednorSerializer(source='VendorID')
+    invoice  = StockinvoiceSerializer(source='InvoiceID')
+    class Meta:
+        model = ProductDetails
+        fields = ['Id','ProductID','BatchNo','OrderedQuantity','ReceivedQuantity','AddedTimestamp','AmountPaid','Production','Damaged','Vendor','invoice'] 
+# end join tables  for production 
+       
+# joing three tables for production 
+class StockPackingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PackingMaterial
+        fields = ['PackingMaterialID','PackingMaterialCode','PackingMaterialName','QtyType']
+
+class joinPackingSerializer(serializers.ModelSerializer):
+    Packing = StockPackingSerializer(source='PackingMaterialID')
+    Damaged =  StockDamagedSerializer(source='DamgeID')
+    Vendor = StockvednorSerializer(source='VendorID')
+    invoice  = StockinvoiceSerializer(source='InvoiceID')
+    class Meta:
+        model = PackingDetails
+        fields = ['Id','PackingMaterialID','BatchNo','OrderedQuantity','ReceivedQuantity','AddedTimestamp','AmountPaid','Packing','Damaged','Vendor','invoice'] 
+
+
+# joing three tables for production  + formula ----------------------------------------
+# class Stockproduction_formulaSerializer(serializers.ModelSerializer):
 #     class Meta:
-#         model = FormulaMaterials
-#         fields = ['ID','Quantity','MaterialID','FormulaID']
+#         model = Production
+#         fields = ['FormulaID','ProductionID']
+
+# class join_Production_FormulaSerializer(serializers.ModelSerializer):
+#     productionData = Stockproduction_formulaSerializer(source='ProductionID')
+#     class Meta:
+#         model = Formula
+#         fields = ['FormulaID','productionData']
+
+# joing three tables for production  + formula -----------------------------------------
 
 class productionfor_materialSerializer(serializers.ModelSerializer):
     class Meta:

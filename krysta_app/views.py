@@ -17,10 +17,10 @@ import datetime
 from rest_framework import generics
 
 from rest_framework import generics
-from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial,Invoice,FormulaMaterials
+from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial,Invoice,FormulaMaterials,ProductDetails,PackingDetails,Production
 from .serializers import UserSerializer,meterialSerializer,VendorSerializer,AddrawmaterialSerializer,\
-                         DamagedSerializer,InvoiceSerializer,joinmaterialSerializer,joinProductionFormulaSerializer
-
+                         DamagedSerializer,InvoiceSerializer,joinmaterialSerializer,joinProductionFormulaSerializer,\
+                         joinProductionSerializer,joinPackingSerializer
 
 current_date = datetime.datetime.now().date()
 current_date_time = datetime.datetime.now()
@@ -308,17 +308,28 @@ class materialDetail(RetrieveAPIView):
     serializer_class = joinmaterialSerializer
     lookup_field = 'MaterialID'
 
-    # def get_object(self):
-    #     lookup_value = self.kwargs.get(self.lookup_field)
-    #     queryset = self.filter_queryset(self.get_queryset())
-    #     # queryset = queryset.filter(**{self.lookup_field: lookup_value})
-    #     queryset =Addrawmaterial.objects.filter(MaterialID=lookup_value)
-    #     if not queryset:
-    #         raise Http404
-    #     return queryset
        
 #fro formula productions 
 class ProductionMaterialViewSet(generics.ListCreateAPIView):
     queryset =FormulaMaterials.objects.all()
     serializer_class = joinProductionFormulaSerializer
     # lookup_field = 'MaterialID'
+
+
+#whitelabeling join tables 
+class WhitelabelingViewSet(generics.ListCreateAPIView):
+    queryset =ProductDetails.objects.all()
+    serializer_class = joinProductionSerializer
+    lookup_field = 'ProductID'
+
+#packing join tables 
+class PackingViewSet(generics.ListCreateAPIView):
+    queryset =PackingDetails.objects.all()
+    serializer_class = joinPackingSerializer
+    lookup_field = 'PackingMaterialID'
+
+#packing join product + formula
+# class Product_formulaViewSet(generics.ListCreateAPIView):
+#     queryset =Production.objects.all()
+#     serializer_class = join_Production_FormulaSerializer
+#     lookup_field = 'FormulaID'

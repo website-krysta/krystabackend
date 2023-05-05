@@ -4,7 +4,8 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
                   addmaterial,updatematerial,getmaterial,deletematerial,getvendorlist,\
                   addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,\
                   getdamagedlist,getrawmaterial,getinvoices,addinvoice,getInvoiceData,getrawmaterialStock ,\
-                  MaterialViewSet ,materialDetail,getrawmaterial_list ,ProductionMaterialViewSet
+                  MaterialViewSet ,materialDetail,getrawmaterial_list ,ProductionMaterialViewSet,WhitelabelingViewSet,PackingViewSet
+                  
                 
 
 from .productApi import addProduct,getProduct,addProductDetails
@@ -74,6 +75,12 @@ urlpatterns = [
     path('production/packingadd/', addProduction_Packing, name='packingadd'),
     #roduction details
     path('productiondetails/list/', getProductionDetails, name='getproductiondetails'),
+    #roduction details
+    path('WhitelabelingViewSet/', WhitelabelingViewSet.as_view()),
+    #roduction details
+    path('PackingViewSet/', PackingViewSet.as_view()),
+    #roduction details
+    # path('ProductionformulaViewSet/', Product_formulaViewSet.as_view()),
 
    
 ]
