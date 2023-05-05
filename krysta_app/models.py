@@ -185,3 +185,34 @@ class FormulaMaterials(models.Model):
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
 
 
+##############---PRODUCTION MODELS ---####################
+
+class Production(models.Model):		
+    ProductionID	= models.IntegerField(primary_key=True)
+    TransactionDate = models.DateTimeField(default=timezone.now)
+    FormulaID  = models.IntegerField()
+    ProductionQuantity = models.DecimalField(max_digits=10, decimal_places=2)
+    AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
+    UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
+    def __int__(self):
+        return self.ProductionID
+    
+class ProductionDetails(models.Model):		
+    Pro_detailsID	= models.AutoField(primary_key=True)
+    ProductionID = models.ForeignKey('Production', on_delete=models.CASCADE) 
+    MaterialID = models.ForeignKey('RawMaterial', on_delete=models.CASCADE,default=1) 
+    Quantity = models.DecimalField(max_digits=10, decimal_places=2)
+    AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
+    UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
+    def __int__(self):
+        return self.Pro_detailsID
+
+class ProductionPacking(models.Model):		
+    production_packing_ID	= models.AutoField(primary_key=True)
+    ProductionID = models.ForeignKey('Production', on_delete=models.CASCADE) 
+    PackingMaterialID = models.ForeignKey('PackingMaterial', on_delete=models.CASCADE,default=1) 
+    Quantity = models.DecimalField(max_digits=10, decimal_places=2)
+    AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
+    UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
+    def __int__(self):
+        return self.production_packing_ID

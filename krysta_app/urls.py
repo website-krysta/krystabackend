@@ -4,17 +4,17 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
                   addmaterial,updatematerial,getmaterial,deletematerial,getvendorlist,\
                   addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,\
                   getdamagedlist,getrawmaterial,getinvoices,addinvoice,getInvoiceData,getrawmaterialStock ,\
-                  MaterialViewSet ,materialDetail,getrawmaterial_list ,ProductionMaterialViewSet    
+                  MaterialViewSet ,materialDetail,getrawmaterial_list ,ProductionMaterialViewSet
+                
 
 from .productApi import addProduct,getProduct,addProductDetails
 from .packingApi import addPacking,getPacking,addPackingDetails
 from .labour import addLabour,getLabour
 from .formula import getformula,addformula,getformulamaterial,addformulamaterial,getformula_ID_Data
-
+from .production import getProduction,addProduction,addProduction_Packing,getProductionDetails
 
 # router = routers.DefaultRouter()
 # router.register(r'modela', MaterialViewSet)    
-
 urlpatterns = [
     path('user/', UserList, name='userlist'),
     path('useradd/', Useradd, name='useradd'),
@@ -68,5 +68,12 @@ urlpatterns = [
     path('materialdetails/<int:MaterialID>/', materialDetail.as_view(), name='material-list'),
      #-----join tables for production for show formulas ------#  
     path('formulaviewSet/', ProductionMaterialViewSet.as_view()),
+    #-----join tables ------#  
+    path('production/list/', getProduction, name='getproduction'),
+    path('production/add/', addProduction, name='addproduction'),
+    path('production/packingadd/', addProduction_Packing, name='packingadd'),
+    #roduction details
+    path('productiondetails/list/', getProductionDetails, name='getproductiondetails'),
+
    
 ]

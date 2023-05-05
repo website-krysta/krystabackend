@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import user,RawMaterial,Vendor,Damaged,Addrawmaterial,Product,ProductDetails,PackingDetails,PackingMaterial,\
-                    Labour,Invoice,Formula,FormulaMaterials
+                    Labour,Invoice,Formula,FormulaMaterials,Production,ProductionDetails,ProductionPacking
 # Register your models here.
 
 class Adminuser(admin.ModelAdmin):
@@ -43,7 +43,20 @@ class AdminFormula(admin.ModelAdmin):
 #----------------------
 class AdminFormulaMaterial(admin.ModelAdmin):
     list_display=(['ID','Quantity','MaterialID','FormulaID','AddedTimeStamp','UpdatedTimeStamp'])
+
+#----------------------
+class AdminProduction(admin.ModelAdmin):
+    list_display=(['ProductionID','TransactionDate','FormulaID','ProductionQuantity','AddedTimeStamp','UpdatedTimeStamp'])
+#----------------------
+class AdminProductionDetails(admin.ModelAdmin):
+    list_display=(['Pro_detailsID','ProductionID','MaterialID','Quantity','AddedTimeStamp','UpdatedTimeStamp'])
+
+#----------------------
+class AdminProductionPacking(admin.ModelAdmin):
+    list_display=(['production_packing_ID','ProductionID','PackingMaterialID','Quantity','AddedTimeStamp','UpdatedTimeStamp'])
+
 ######################################################################
+
 admin.site.register(user,Adminuser)
 admin.site.register(RawMaterial,Adminrawmeterial)
 admin.site.register(Vendor,AdminVendor)
@@ -62,3 +75,7 @@ admin.site.register(Invoice,AdminInvoice)
 #----------------------
 admin.site.register(Formula,AdminFormula)
 admin.site.register(FormulaMaterials,AdminFormulaMaterial)
+#----------------------
+admin.site.register(Production,AdminProduction)
+admin.site.register(ProductionDetails,AdminProductionDetails)
+admin.site.register(ProductionPacking,AdminProductionPacking)

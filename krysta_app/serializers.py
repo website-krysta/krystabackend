@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from .models import user,RawMaterial,Vendor,Addrawmaterial,Damaged,Product,ProductDetails,PackingMaterial,\
-                   PackingDetails,Labour,Invoice,Formula,FormulaMaterials
+                   PackingDetails,Labour,Invoice,Formula,FormulaMaterials,Production,ProductionDetails,ProductionPacking
+
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = user
@@ -65,6 +68,20 @@ class FormulaMaterialsSerializer(serializers.ModelSerializer):
         model = FormulaMaterials
         fields = '__all__'
 
+class ProductionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Production
+        fields = '__all__' 
+
+class ProductionDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductionDetails
+        fields = '__all__'        
+
+class PaackingDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductionPacking
+        fields = '__all__'        
 # joing three tables for 
 
 class StockmateriaListSerializer(serializers.ModelSerializer):
