@@ -4,7 +4,8 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
                   addmaterial,updatematerial,getmaterial,deletematerial,getvendorlist,\
                   addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,\
                   getdamagedlist,getrawmaterial,getinvoices,addinvoice,getInvoiceData,getrawmaterialStock ,\
-                  MaterialViewSet ,materialDetail,getrawmaterial_list ,ProductionMaterialViewSet,WhitelabelingViewSet,PackingViewSet
+                  MaterialViewSet ,materialDetail,getrawmaterial_list ,ProductionMaterialViewSet,WhitelabelingViewSet,PackingViewSet,\
+                  UpdateInvoiceData 
                   
                 
 
@@ -57,6 +58,7 @@ urlpatterns = [
     path('invoice/list/', getinvoices, name='getinvoice'),
     path('invoice/add/', addinvoice, name='addinvoice'),
     path('invoce/getinvoice/<int:id>/', getInvoiceData, name='get_invoiceData '),
+    path('invoce/updateinvoice/<int:id>/', UpdateInvoiceData, name='update_invoiceData '),
     #------formula ------#   
     path('formula/list/', getformula, name='getformula'),
     path('formula/add/', addformula, name='addformula'),

@@ -293,6 +293,15 @@ def addinvoice(request):
         return Response(invoice_data.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
+@api_view(['POST'])
+def UpdateInvoiceData(request,id):
+    if request.method == 'POST':
+        queryset = Invoice.objects.get(InvoiceID=id)
+        serializer_data = InvoiceSerializer(instance=queryset,data = request.data)
+        if serializer_data.is_valid():
+            serializer_data.save()
+        return Response(serializer_data.data)
+
 # join tables views
 
 from rest_framework import generics
