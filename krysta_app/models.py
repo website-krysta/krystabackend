@@ -159,7 +159,7 @@ class Invoice(models.Model):
     InvoiceNumber =	models.CharField(max_length=10)
     InwardNumber  = models.CharField(max_length=20)
     InvoiceDate   = models.DateField()
-    RecievedDate  = models.DateField()
+    RecievedDate  = models.DateField(null=True, blank=True,default="")
     VendorID = models.IntegerField()
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)

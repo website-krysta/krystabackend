@@ -247,7 +247,45 @@ def addRawmaterial(request):
             meterial_data.save()
             return Response(meterial_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(meterial_data.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+
+#update addrawmaterial
+@api_view(['POST'])
+def UpdateRawmaterialDetails(request):
+    if request.method == 'POST':
+        max_value = Damaged.objects.aggregate(max_value=Max('DamgeID'))
+        max_value = max_value['max_value']+1
+        key_to_get = 'DamgeID'
+        request.data[key_to_get] = max_value
+        set_difference = 'DamagedQty'
+        request.data[set_difference] = int(request.data['OrderedQuantity']) - int(request.data['ReceivedQuantity'])
+   
+        #set data 
+        get_t_date = 'TransactionDate'
+        request.data[get_t_date] = current_date_time
+        get_add_time = 'AddedTimestamp'
+        request.data[get_add_time] = current_date_time
+        get_update_time = 'UpdatedTimestamp'
+        request.data[get_update_time] = current_date_time
+
+        danaged_data = DamagedSerializer(data = request.data)
+        if danaged_data.is_valid():
+            danaged_data.save()
+            print(danaged_data)
+        # update ramaterial total qty
+        Mid = request.data['MaterialID']
+        queryset = RawMaterial.objects.get(MaterialID=Mid)
+        queryset.TotalQuantity = int(queryset.TotalQuantity) + int(request.data['ReceivedQuantity'])
+        serializer_data = meterialSerializer(instance=queryset, data=queryset.__dict__)
+        if serializer_data.is_valid():
+            serializer_data.save()
+            
+        meterial_data = AddrawmaterialSerializer(data = request.data)
+        if meterial_data.is_valid():
+            meterial_data.save()
+            return Response(meterial_data.initial_data, status=status.HTTP_201_CREATED)
+        return Response(meterial_data.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 #invoiceAPI ########################################
 
@@ -284,11 +322,13 @@ def addinvoice(request):
         request.data[get_add_time] = current_date_time
         get_update_time = 'UpdatedTimeStamp'
         request.data[get_update_time] = current_date_time
+        reciveddata = request.data['RecievedDate']
+        if reciveddata == "":
+            request.data['RecievedDate']= "0001-01-01"
 
         invoice_data = InvoiceSerializer(data = request.data)
         if invoice_data.is_valid():
             invoice_data.save()
-            print(invoice_data)
             return Response(invoice_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(invoice_data.errors, status=status.HTTP_400_BAD_REQUEST)
     
