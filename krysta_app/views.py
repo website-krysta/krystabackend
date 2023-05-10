@@ -179,6 +179,15 @@ def adddamageditem(request):
             return Response(danaged_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(danaged_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['GET'])
+def getDamagedItem(request,id):
+    if request.method == 'GET':
+        queryset = Damaged.objects.filter(DamgeID=id)
+        serializer_data = DamagedSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
+     
+
 #Raw Meterial API ########################################
 @api_view(['GET'])
 def getAddrawmaterial(request):
@@ -253,34 +262,32 @@ def addRawmaterial(request):
 @api_view(['POST'])
 def UpdateRawmaterialDetails(request):
     if request.method == 'POST':
-        max_value = Damaged.objects.aggregate(max_value=Max('DamgeID'))
-        max_value = max_value['max_value']+1
-        key_to_get = 'DamgeID'
-        request.data[key_to_get] = max_value
-        set_difference = 'DamagedQty'
-        request.data[set_difference] = int(request.data['OrderedQuantity']) - int(request.data['ReceivedQuantity'])
-   
-        #set data 
-        get_t_date = 'TransactionDate'
-        request.data[get_t_date] = current_date_time
-        get_add_time = 'AddedTimestamp'
-        request.data[get_add_time] = current_date_time
-        get_update_time = 'UpdatedTimestamp'
-        request.data[get_update_time] = current_date_time
+        damaged_data = request.data['damaged']
+        materialDetails_data = request.data['materialDetails']
+        rawmaterial_data = request.data['rawmaterial']
 
-        danaged_data = DamagedSerializer(data = request.data)
-        if danaged_data.is_valid():
-            danaged_data.save()
-            print(danaged_data)
-        # update ramaterial total qty
-        Mid = request.data['MaterialID']
-        queryset = RawMaterial.objects.get(MaterialID=Mid)
-        queryset.TotalQuantity = int(queryset.TotalQuantity) + int(request.data['ReceivedQuantity'])
-        serializer_data = meterialSerializer(instance=queryset, data=queryset.__dict__)
+        detail_material_id = request.data['materialDetails']['Id']
+        raw_material_id = request.data['rawmaterial']['MaterialID']
+        damage_item_id = request.data['damaged']['DamgeID']
+
+        #damaged table
+        damaged_data['DamagedQty'] = materialDetails_data['OrderedQuantity'] - int(materialDetails_data['ReceivedQuantity'])
+        queryset = Damaged.objects.get(DamgeID=damage_item_id)
+        serializer_data = DamagedSerializer(instance=queryset ,data = damaged_data)
         if serializer_data.is_valid():
             serializer_data.save()
-            
-        meterial_data = AddrawmaterialSerializer(data = request.data)
+          
+
+        # update ramaterial total qty
+        queryset = RawMaterial.objects.get(MaterialID=raw_material_id)
+        serializer_data = meterialSerializer(instance=queryset, data=rawmaterial_data)
+        if serializer_data.is_valid():
+            serializer_data.save()
+
+        request.data['materialDetails']['UpdatedTimestamp'] = current_date_time
+        queryset = Addrawmaterial.objects.get(Id = detail_material_id)
+        x = request.data['materialDetails']['UpdatedTimestamp']
+        meterial_data = AddrawmaterialSerializer(instance=queryset, data = materialDetails_data)
         if meterial_data.is_valid():
             meterial_data.save()
             return Response(meterial_data.initial_data, status=status.HTTP_201_CREATED)

@@ -5,7 +5,7 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
                   addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,\
                   getdamagedlist,getrawmaterial,getinvoices,addinvoice,getInvoiceData,getrawmaterialStock ,\
                   MaterialViewSet ,materialDetail,getrawmaterial_list ,ProductionMaterialViewSet,WhitelabelingViewSet,PackingViewSet,\
-                  UpdateInvoiceData,UpdateRawmaterialDetails 
+                  UpdateInvoiceData,UpdateRawmaterialDetails ,getDamagedItem
                   
                 
 
@@ -36,6 +36,8 @@ urlpatterns = [
   #------vendor ------#
     path('damaged/list/', getdamagedlist, name='damagedlist'),
     path('damaged/add/', adddamageditem, name='dagameditem'),
+    path('damaged/<int:id>/', getDamagedItem, name='getdamagedItem '),
+
     #------addRawMaterial ------#   
     path('addRawmaterial/list/', getAddrawmaterial, name='getaddRawmaterial'),
     path('addRawmaterial/add/', addRawmaterial, name='addRawmaterial'),
