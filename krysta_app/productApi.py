@@ -50,6 +50,13 @@ def getProducItem(request,id):
         serializer_data = ProductlSerializer(queryset ,many=True)
         return Response(serializer_data.data)
 
+@api_view(['GET'])
+def getProducDetails_item(request,id):
+    if request.method == 'GET':
+        queryset = ProductDetails.objects.filter(Id=id)
+        serializer_data = ProductlDetailsSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
+
     
 @api_view(['POST'])
 def addProductDetails(request):
@@ -88,3 +95,37 @@ def addProductDetails(request):
             ProductlDetails_data.save()
             return Response(ProductlDetails_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(ProductlDetails_data.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#update packeing details
+@api_view(['POST'])
+def Update_whitelabel_Details(request):
+    if request.method == 'POST':
+        damaged_data = request.data['damaged']
+        productDetails_data = request.data['productItem']
+        product = request.data['product']
+
+        detail_product_id = request.data['productItem']['Id']
+        raw_product_id = request.data['product']['ProductID']
+        damage_item_id = request.data['damaged']['DamgeID']
+
+        #damaged table
+        damaged_data['DamagedQty'] = int(productDetails_data['OrderedQuantity']) - int(productDetails_data['ReceivedQuantity'])
+        queryset = Damaged.objects.get(DamgeID=damage_item_id)
+        serializer_data = DamagedSerializer(instance=queryset ,data = damaged_data)
+        if serializer_data.is_valid():
+            serializer_data.save()
+          
+
+        # update ramaterial total qty
+        queryset = Product.objects.get(ProductID=raw_product_id)
+        serializer_data = ProductlSerializer(instance=queryset, data=product)
+        if serializer_data.is_valid():
+            serializer_data.save()
+
+        request.data['productItem']['UpdatedTimestamp'] = current_date_time
+        queryset = ProductDetails.objects.get(Id = detail_product_id)
+        meterial_data = ProductlDetailsSerializer(instance=queryset, data = productDetails_data)
+        if meterial_data.is_valid():
+            meterial_data.save()
+            return Response(meterial_data.initial_data, status=status.HTTP_201_CREATED)
+        return Response(meterial_data.errors, status=status.HTTP_400_BAD_REQUEST)

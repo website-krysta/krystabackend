@@ -17,10 +17,10 @@ import datetime
 from rest_framework import generics
 
 from rest_framework import generics
-from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial,Invoice,FormulaMaterials,ProductDetails,PackingDetails,Production
+from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial,Invoice,FormulaMaterials,ProductDetails,PackingDetails,Formula
 from .serializers import UserSerializer,meterialSerializer,VendorSerializer,AddrawmaterialSerializer,\
                          DamagedSerializer,InvoiceSerializer,joinmaterialSerializer,joinProductionFormulaSerializer,\
-                         joinProductionSerializer,joinPackingSerializer
+                         joinProductionSerializer,joinPackingSerializer,formulaMaterial_detailsSerializer,join_FormulaSerializer
 
 current_date = datetime.datetime.now().date()
 current_date_time = datetime.datetime.now()
@@ -391,7 +391,7 @@ class PackingViewSet(generics.ListCreateAPIView):
     lookup_field = 'PackingMaterialID'
 
 #packing join product + formula
-# class Product_formulaViewSet(generics.ListCreateAPIView):
-#     queryset =Production.objects.all()
-#     serializer_class = join_Production_FormulaSerializer
-#     lookup_field = 'FormulaID'
+class Formula_Material_ViewSet(generics.ListCreateAPIView):
+    queryset =FormulaMaterials.objects.all()
+    serializer_class = formulaMaterial_detailsSerializer
+    lookup_field = 'FormulaID'

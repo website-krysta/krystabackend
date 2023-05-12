@@ -150,17 +150,20 @@ class joinPackingSerializer(serializers.ModelSerializer):
         fields = ['Id','PackingMaterialID','BatchNo','OrderedQuantity','ReceivedQuantity','AddedTimestamp','AmountPaid','Packing','Damaged','Vendor','invoice'] 
 
 
-# joing three tables for production  + formula ----------------------------------------
-# class Stockproduction_formulaSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Production
-#         fields = ['FormulaID','ProductionID']
+# joing three tables for formula  + formula Material + Material  ----------------------------------------
+class join_FormulaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Formula
+        fields = ['FormulaID','FormulaName','AddedTimeStamp']
 
-# class join_Production_FormulaSerializer(serializers.ModelSerializer):
-#     productionData = Stockproduction_formulaSerializer(source='ProductionID')
-#     class Meta:
-#         model = Formula
-#         fields = ['FormulaID','productionData']
+class formulaMaterial_detailsSerializer(serializers.ModelSerializer):
+    Formula = join_FormulaSerializer(source='FormulaID')
+    aMaterial = StockmateriaListSerializer(source='MaterialID')
+ 
+    class Meta:
+        model = FormulaMaterials
+        fields = ['ID','FormulaID','Quantity','Formula','aMaterial']
+
 
 # joing three tables for production  + formula -----------------------------------------
 

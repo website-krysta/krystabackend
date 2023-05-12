@@ -5,11 +5,11 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
                   addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,\
                   getdamagedlist,getrawmaterial,getinvoices,addinvoice,getInvoiceData,getrawmaterialStock ,\
                   MaterialViewSet ,materialDetail,getrawmaterial_list ,ProductionMaterialViewSet,WhitelabelingViewSet,PackingViewSet,\
-                  UpdateInvoiceData,UpdateRawmaterialDetails ,getDamagedItem
+                  UpdateInvoiceData,UpdateRawmaterialDetails ,getDamagedItem,Formula_Material_ViewSet
                   
                 
 
-from .productApi import addProduct,getProduct,addProductDetails,getProducItem
+from .productApi import addProduct,getProduct,addProductDetails,getProducItem,Update_whitelabel_Details,getProducDetails_item
 from .packingApi import addPacking,getPacking,addPackingDetails,getPackingItem,getpacking_material_list,UpdatePackingDetails
 from .labour import addLabour,getLabour
 from .formula import getformula,addformula,getformulamaterial,addformulamaterial,getformula_ID_Data
@@ -51,6 +51,8 @@ urlpatterns = [
     path('product/add/', addProduct, name='addproduct'),
     path('product/ProductDetails/add/', addProductDetails, name='get_product_details '),
     path('product/<int:id>/', getProducItem, name='get_productItem'),
+    path('productDetails/<int:id>/', getProducDetails_item, name='get_productDetailsItem'),
+    path('update_whitelabeling/update/', Update_whitelabel_Details, name='update_whitelabeling'),
     #------packing ------#   
     path('packing/list/', getPacking, name='getpacking'),
     path('packing/add/', addPacking, name='addpacking'),
@@ -89,7 +91,7 @@ urlpatterns = [
     #roduction details
     path('PackingViewSet/', PackingViewSet.as_view()),
     #roduction details
-    # path('ProductionformulaViewSet/', Product_formulaViewSet.as_view()),
+    path('Formula_Material_ViewSet/', Formula_Material_ViewSet.as_view()),
 
    
 ]
