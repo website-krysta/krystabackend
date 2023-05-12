@@ -41,6 +41,12 @@ def addPacking(request):
             return Response(packing_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(packing_data.errors, status=status.HTTP_400_BAD_REQUEST)
     
+@api_view(['GET'])
+def getPackingItem(request,id):
+    if request.method == 'GET':
+        queryset = PackingMaterial.objects.filter(PackingMaterialID=id)
+        serializer_data = PackingSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
 
 
     
@@ -61,7 +67,9 @@ def addPackingDetails(request):
         request.data[get_add_time] = current_date_time
         get_update_time = 'UpdatedTimestamp'
         request.data[get_update_time] = current_date_time
-
+        los_amount = request.data['LossofAmount']
+        if los_amount == "":
+            request.data['LossofAmount'] = 0
         danaged_data = DamagedSerializer(data = request.data)
         if danaged_data.is_valid():
             danaged_data.save()

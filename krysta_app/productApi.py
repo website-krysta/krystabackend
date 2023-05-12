@@ -43,7 +43,12 @@ def addProduct(request):
             return Response(product_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(product_data.errors, status=status.HTTP_400_BAD_REQUEST)
     
-
+@api_view(['GET'])
+def getProducItem(request,id):
+    if request.method == 'GET':
+        queryset = Product.objects.filter(ProductID=id)
+        serializer_data = ProductlSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
 
     
 @api_view(['POST'])
@@ -63,7 +68,9 @@ def addProductDetails(request):
         request.data[get_add_time] = current_date_time
         get_update_time = 'UpdatedTimestamp'
         request.data[get_update_time] = current_date_time
-
+        los_amount = request.data['LossofAmount']
+        if los_amount == "":
+            request.data['LossofAmount'] = 0
         danaged_data = DamagedSerializer(data = request.data)
         if danaged_data.is_valid():
             danaged_data.save()

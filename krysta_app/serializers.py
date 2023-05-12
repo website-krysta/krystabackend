@@ -106,7 +106,7 @@ class StockvednorSerializer(serializers.ModelSerializer):
 class StockinvoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
-        fields = ['InvoiceID','InwardNumber']
+        fields = ['InvoiceID','InwardNumber','InvoiceNumber']
 
  #add rawmaterial table  
 class joinmaterialSerializer(serializers.ModelSerializer):

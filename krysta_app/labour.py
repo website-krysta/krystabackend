@@ -18,7 +18,8 @@ from rest_framework import generics
 from .models import Labour
 from .serializers import LabourSerializer
 
-
+current_hour = str(datetime.datetime.now().hour).zfill(2)
+current_minute = str( datetime.datetime.now().minute).zfill(2)
 current_date = datetime.datetime.now().date()
 current_date_time = datetime.datetime.now()
 
@@ -36,6 +37,8 @@ def getLabour(request):
 @api_view(['POST'])
 def addLabour(request):
     if request.method == 'POST':
+        result = request.data['EnteryDate'] + "-" + current_hour + ":" + current_minute
+        request.data['EnteryDate']= result
         labour_data = LabourSerializer(data = request.data)
         if labour_data.is_valid():
             labour_data.save()

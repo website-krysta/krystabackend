@@ -238,7 +238,9 @@ def addRawmaterial(request):
         request.data[get_add_time] = current_date_time
         get_update_time = 'UpdatedTimestamp'
         request.data[get_update_time] = current_date_time
-
+        los_amount = request.data['LossofAmount']
+        if los_amount == "":
+            request.data['LossofAmount'] = 0
         danaged_data = DamagedSerializer(data = request.data)
         if danaged_data.is_valid():
             danaged_data.save()
@@ -271,7 +273,7 @@ def UpdateRawmaterialDetails(request):
         damage_item_id = request.data['damaged']['DamgeID']
 
         #damaged table
-        damaged_data['DamagedQty'] = materialDetails_data['OrderedQuantity'] - int(materialDetails_data['ReceivedQuantity'])
+        damaged_data['DamagedQty'] = int(materialDetails_data['OrderedQuantity']) - int(materialDetails_data['ReceivedQuantity'])
         queryset = Damaged.objects.get(DamgeID=damage_item_id)
         serializer_data = DamagedSerializer(instance=queryset ,data = damaged_data)
         if serializer_data.is_valid():
@@ -332,6 +334,10 @@ def addinvoice(request):
         reciveddata = request.data['RecievedDate']
         if reciveddata == "":
             request.data['RecievedDate']= "0001-01-01"
+        Invoice_Number = request.data['InvoiceNumber']
+        existinginvoice = Invoice.objects.filter(InvoiceNumber=Invoice_Number).exists()
+        if existinginvoice:
+            return Response({'error': 'Invoice number already exists'},status=status.HTTP_226_IM_USED)
 
         invoice_data = InvoiceSerializer(data = request.data)
         if invoice_data.is_valid():

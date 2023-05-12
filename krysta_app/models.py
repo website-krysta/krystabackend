@@ -38,6 +38,7 @@ class Vendor(models.Model):
     City =  models.CharField(max_length=25)
     State =  models.CharField(max_length=25)
     Zip = models.CharField(max_length=10,default=0)
+    LossofAmount = models.IntegerField(null=True,blank=True,default=0)
     AddedTimestamp = models.DateTimeField(default=timezone.now)
     UpdatedTimestamp = models.DateTimeField(default=timezone.now)
 
@@ -48,7 +49,7 @@ class Damaged(models.Model):
     DamgeID = models.IntegerField(primary_key=True)
     DamagedQty = models.IntegerField(null=True,blank=True)
     DamagedResion = models.CharField(max_length=100,null=True,blank=True)
-    LossofAmount = models.IntegerField(null=True,blank=True)
+    LossofAmount = models.IntegerField(null=True,blank=True,default=0)
 
     def __int__(self):
         return self.DamgeID
@@ -148,6 +149,7 @@ class Labour(models.Model):
     NightShiftCount = models.IntegerField()
     MorningShiftAmount =	models.DecimalField(max_digits=10, decimal_places=2)
     NightShiftAmount =	models.DecimalField(max_digits=10, decimal_places=2)
+    EnteryDate = models.DateTimeField(default=timezone.now)
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     updatedTimeStamp	= models.DateTimeField(default=timezone.now)
 

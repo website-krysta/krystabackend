@@ -32,7 +32,7 @@ class AdminPackingDetails(admin.ModelAdmin):
     list_display=(['Id','BatchNo','OrderedQuantity','ReceivedQuantity','PackingMaterialID','VendorID','DamgeID','InvoiceID'])
 #----------------------
 class AdminLabour(admin.ModelAdmin):
-    list_display=(['ID','TotalLabours','MorningShiftCount','NightShiftCount','MorningShiftAmount','NightShiftAmount','AddedTimeStamp'])
+    list_display=(['ID','TotalLabours','MorningShiftCount','NightShiftCount','MorningShiftAmount','EnteryDate','NightShiftAmount','AddedTimeStamp'])
 #----------------------
 class AdminInvoice(admin.ModelAdmin):
     list_display=(['InvoiceID','InvoiceNumber','InwardNumber','InvoiceDate','RecievedDate','VendorID','AddedTimeStamp'])

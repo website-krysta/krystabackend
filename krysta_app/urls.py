@@ -9,8 +9,8 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
                   
                 
 
-from .productApi import addProduct,getProduct,addProductDetails
-from .packingApi import addPacking,getPacking,addPackingDetails
+from .productApi import addProduct,getProduct,addProductDetails,getProducItem
+from .packingApi import addPacking,getPacking,addPackingDetails,getPackingItem
 from .labour import addLabour,getLabour
 from .formula import getformula,addformula,getformulamaterial,addformulamaterial,getformula_ID_Data
 from .production import getProduction,addProduction,addProduction_Packing,getProductionDetails
@@ -50,10 +50,12 @@ urlpatterns = [
     path('product/list/', getProduct, name='getproduct'),
     path('product/add/', addProduct, name='addproduct'),
     path('product/ProductDetails/add/', addProductDetails, name='get_product_details '),
+    path('product/<int:id>/', getProducItem, name='get_productItem'),
     #------packing ------#   
     path('packing/list/', getPacking, name='getpacking'),
     path('packing/add/', addPacking, name='addpacking'),
     path('packing/packingdetails/add/', addPackingDetails, name='addpackingdata '),
+    path('packing/<int:id>/', getPackingItem, name='get_packingItem'),
     #------labour ------#   
     path('labour/list/', getLabour, name='getlabour'),
     path('labour/add/', addLabour, name='addlabour'),
