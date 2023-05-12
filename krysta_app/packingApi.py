@@ -48,7 +48,14 @@ def getPackingItem(request,id):
         serializer_data = PackingSerializer(queryset ,many=True)
         return Response(serializer_data.data)
 
-
+ #this api is useing  in stock module  
+@api_view(['GET'])
+def getpacking_material_list(request,id):
+    if request.method == 'GET':
+        queryset = PackingDetails.objects.filter(Id=id)
+        serializer_data = PackingDetailsSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
+        
     
 @api_view(['POST'])
 def addPackingDetails(request):
@@ -87,3 +94,40 @@ def addPackingDetails(request):
             packingmeterial_data.save()
             return Response(packingmeterial_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(packingmeterial_data.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+
+#update packeing details
+@api_view(['POST'])
+def UpdatePackingDetails(request):
+    if request.method == 'POST':
+        damaged_data = request.data['damaged']
+        packingDetails_data = request.data['packingItem']
+        packing = request.data['Packing']
+
+        detail_packing_id = request.data['packingItem']['Id']
+        raw_packing_id = request.data['Packing']['PackingMaterialID']
+        damage_item_id = request.data['damaged']['DamgeID']
+
+        #damaged table
+        damaged_data['DamagedQty'] = int(packingDetails_data['OrderedQuantity']) - int(packingDetails_data['ReceivedQuantity'])
+        queryset = Damaged.objects.get(DamgeID=damage_item_id)
+        serializer_data = DamagedSerializer(instance=queryset ,data = damaged_data)
+        if serializer_data.is_valid():
+            serializer_data.save()
+          
+
+        # update ramaterial total qty
+        queryset = PackingMaterial.objects.get(PackingMaterialID=raw_packing_id)
+        serializer_data = PackingSerializer(instance=queryset, data=packing)
+        if serializer_data.is_valid():
+            serializer_data.save()
+
+        request.data['packingItem']['UpdatedTimestamp'] = current_date_time
+        queryset = PackingDetails.objects.get(Id = detail_packing_id)
+        meterial_data = PackingDetailsSerializer(instance=queryset, data = packingDetails_data)
+        if meterial_data.is_valid():
+            meterial_data.save()
+            return Response(meterial_data.initial_data, status=status.HTTP_201_CREATED)
+        return Response(meterial_data.errors, status=status.HTTP_400_BAD_REQUEST)
