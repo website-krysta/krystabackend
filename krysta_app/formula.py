@@ -56,8 +56,8 @@ def addformula(request):
         formula['FormulaID'] = max_value
         formula['FormulaName']= formula_name
         formula['TotalMaterialsUsed']= count_of_material
-        formula['AddedTimeStamp']= "2023-04-19T06:10:14Z"
-        formula['UpdatedTimeStamp']= "2023-04-19T06:10:14Z"
+        formula['AddedTimeStamp']= current_date_time
+        formula['UpdatedTimeStamp']= current_date_time
    
         aFormula_obj = []      
 
@@ -68,16 +68,16 @@ def addformula(request):
             formula_material = {
             "ID": 0,
             "Quantity": "",
-            "AddedTimeStamp": "2023-04-20T07:58:34Z",
-            "UpdatedTimeStamp": "2023-04-20T07:58:34Z",
+            "AddedTimeStamp": "",
+            "UpdatedTimeStamp": "",
             "MaterialID": 1,
             "FormulaID": 1
             }
 
             formula_material['ID'] = 0
             formula_material['Quantity']= qty
-            formula_material['AddedTimeStamp']= "2023-04-19T06:10:14Z"
-            formula_material['UpdatedTimeStamp']= "2023-04-19T06:10:14Z"
+            formula_material['AddedTimeStamp']= current_date_time
+            formula_material['UpdatedTimeStamp']= current_date_time
             formula_material['MaterialID']= mid
             formula_material['FormulaID']= max_value
             aFormula_obj.append(formula_material)
