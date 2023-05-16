@@ -32,18 +32,30 @@ current_date_time = datetime.datetime.now()
 @api_view(['GET','POST'])
 def UserList(request):
     if request.method == 'GET':
-        queryset = user.objects.all()
+        queryset = user.objects.filter(UserStatus=True)
         serializer_data = UserSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     elif request.method == 'POST':
         queryset = user.objects.all().values()
-        userdata = UserSerializer(data = request.data)
-        # userdata.is_valid(raise_exception=True)
-        # username = user_data.validated_data['EmailID']
-        # password = user_data.validated_data['Password']
-        if not userdata.is_valid():
+        useriem = user.objects.get(EmailID=request.data['EmailID'])
+        user_details = {  
+                'UserID':0,	
+                'EmailID' :'',	
+                'Password'  :'',	
+                'Role':'',	
+                'UserStatus':'',		
+        }
+        user_details['UserID'] = useriem.UserID
+        user_details['EmailID'] = useriem.EmailID
+        user_details['Password'] = useriem.Password
+        user_details['Role'] = useriem.Role
+        user_details['UserStatus'] = useriem.UserStatus
+
+        # userdata = UserSerializer(data = user_details)
+        serializer_data = UserSerializer(instance=useriem ,data = user_details)
+        if serializer_data.is_valid():
             for fields in queryset:
-                if fields['EmailID'] == userdata.initial_data['EmailID'] and fields['Password'] == userdata.initial_data['Password']:
+                if fields['EmailID'] ==  user_details['EmailID'] and fields['Password'] ==  user_details['Password']:
                         print('login sucessfully')
                         # Generate the JWT token
                         # token_data_obj = user.objects.get(UserID=userdata.initial_data['EmailID'])
@@ -53,11 +65,11 @@ def UserList(request):
                         # encoded_jwt = jwt.encode(
                         #     {"exp": exp, "nbf": now, "sub": email}, settings.SECRET_KEY, algorithm="HS256",
                         # )
-                        return Response(userdata.initial_data, status=status.HTTP_200_OK)
+                        return Response(serializer_data.data, status=status.HTTP_200_OK)
                         
                         
                 #return Response(userdata.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response(userdata.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer_data.data.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
      
@@ -88,14 +100,30 @@ def getUserdate(request,id):
         serializer_data = UserSerializer(queryset ,many=False)
         return Response(serializer_data.data)
      
-@api_view(['DELETE'])
+@api_view(['POST'])
 def deleteUser(request,id):
-    if request.method == 'DELETE':
+    if request.method == 'POST':
         queryset = user.objects.get(UserID=id)
-        queryset.delete()
-        return Response('item delet sucessfully!')
+        queryset.UserStatus = False
+        user_details = {  
+                'UserID':0,	
+                'EmailID' :'',	
+                'Password'  :'',	
+                'Role':'',	
+                'UserStatus':'',		
+        }
+        user_details['UserID'] = queryset.UserID
+        user_details['EmailID'] = queryset.EmailID
+        user_details['Password'] = queryset.Password
+        user_details['Role'] = queryset.Role
+        user_details['UserStatus'] = queryset.UserStatus
+       
+        serializer_data = UserSerializer(instance=queryset ,data = user_details)
+        if serializer_data.is_valid():
+            serializer_data.save()
+        return Response(serializer_data.data)
      
-
+    
 
 #Raw Meterial API ########################################
 
