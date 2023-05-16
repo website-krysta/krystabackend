@@ -5,7 +5,7 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
                   addvendor,getvendor,addRawmaterial,getAddrawmaterial,adddamageditem,\
                   getdamagedlist,getrawmaterial,getinvoices,addinvoice,getInvoiceData,getrawmaterialStock ,\
                   MaterialViewSet ,materialDetail,getrawmaterial_list ,ProductionMaterialViewSet,WhitelabelingViewSet,PackingViewSet,\
-                  UpdateInvoiceData,UpdateRawmaterialDetails ,getDamagedItem,Formula_Material_ViewSet
+                  UpdateInvoiceData,UpdateRawmaterialDetails ,getDamagedItem,Formula_Material_ViewSet,Production_Formula_ViewSet,Production_packing_ViewSet
                   
                 
 
@@ -90,8 +90,11 @@ urlpatterns = [
     path('WhitelabelingViewSet/', WhitelabelingViewSet.as_view()),
     #roduction details
     path('PackingViewSet/', PackingViewSet.as_view()),
-    #roduction details
+    #production details
     path('Formula_Material_ViewSet/', Formula_Material_ViewSet.as_view()),
-
+    #ppproduction details
+    path('productionTable_ViewSet/', Production_Formula_ViewSet.as_view()),
+    path('production_packingTable_ViewSet/', Production_packing_ViewSet.as_view()),
+    
    
 ]

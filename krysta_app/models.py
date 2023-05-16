@@ -192,7 +192,7 @@ class FormulaMaterials(models.Model):
 class Production(models.Model):		
     ProductionID	= models.IntegerField(primary_key=True)
     TransactionDate = models.DateTimeField(default=timezone.now)
-    FormulaID  = models.IntegerField()
+    FormulaID  = models.ForeignKey('Formula', on_delete=models.CASCADE)
     ProductionQuantity = models.DecimalField(max_digits=10, decimal_places=2)
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)

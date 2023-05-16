@@ -17,10 +17,13 @@ import datetime
 from rest_framework import generics
 
 from rest_framework import generics
-from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial,Invoice,FormulaMaterials,ProductDetails,PackingDetails,Formula
+from .models import user,RawMaterial,Vendor,Damaged ,Addrawmaterial,Invoice,FormulaMaterials,ProductDetails,PackingDetails,Formula,Production,\
+                    ProductionPacking
 from .serializers import UserSerializer,meterialSerializer,VendorSerializer,AddrawmaterialSerializer,\
                          DamagedSerializer,InvoiceSerializer,joinmaterialSerializer,joinProductionFormulaSerializer,\
-                         joinProductionSerializer,joinPackingSerializer,formulaMaterial_detailsSerializer,join_FormulaSerializer
+                         joinProductionSerializer,joinPackingSerializer,formulaMaterial_detailsSerializer,join_FormulaSerializer,\
+                            viewProductionFormulaSerializer,production_packing_details_join_Serializer
+
 
 current_date = datetime.datetime.now().date()
 current_date_time = datetime.datetime.now()
@@ -395,3 +398,21 @@ class Formula_Material_ViewSet(generics.ListCreateAPIView):
     queryset =FormulaMaterials.objects.all()
     serializer_class = formulaMaterial_detailsSerializer
     lookup_field = 'FormulaID'
+
+#view table  fro production  join production + formula
+class Production_Formula_ViewSet(generics.ListCreateAPIView):
+    queryset =Production.objects.all()
+    serializer_class = viewProductionFormulaSerializer
+    lookup_field = 'FormulaID'
+
+#view table  fro production  join production + packing materials
+class Production_Formula_ViewSet(generics.ListCreateAPIView):
+    queryset =Production.objects.all()
+    serializer_class = viewProductionFormulaSerializer
+    lookup_field = 'FormulaID'
+
+#view table  fro production  join production + packing materials
+class Production_packing_ViewSet(generics.ListCreateAPIView):
+    queryset =ProductionPacking.objects.all()
+    serializer_class = production_packing_details_join_Serializer
+    lookup_field = 'ProductionID'

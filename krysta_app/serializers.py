@@ -185,3 +185,35 @@ class joinProductionFormulaSerializer(serializers.ModelSerializer):
         model = FormulaMaterials
         fields = ['ID','Quantity','MaterialID','FormulaID','material','forumula']
         
+# joing production and formula table  production  + formula -----------------------------------------
+
+class join_Formula_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Formula
+        fields = ['FormulaID','FormulaName','AddedTimeStamp']
+
+class viewProductionFormulaSerializer(serializers.ModelSerializer):
+    forumula = join_Formula_Serializer(source='FormulaID')
+    class Meta:
+        model = Production
+        fields = ['ProductionID','ProductionQuantity','AddedTimeStamp','TransactionDate','FormulaID','forumula']
+
+
+# detals
+class Stock_Packing_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = PackingMaterial
+        fields = ['PackingMaterialID','PackingMaterialCode','PackingMaterialName','QtyType']
+
+class Stock_rawmaterial_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = RawMaterial
+        fields = ['MaterialID','MaterialCode','MaterialName','QtyType']
+
+
+class production_packing_details_join_Serializer(serializers.ModelSerializer):
+    producton = viewProductionFormulaSerializer(source='ProductionID')
+    packing =  Stock_Packing_Serializer(source='PackingMaterialID')
+    class Meta:
+        model = ProductionPacking
+        fields = ['production_packing_ID','Quantity','producton','packing'] 
