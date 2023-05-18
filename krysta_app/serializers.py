@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import user,RawMaterial,Vendor,Addrawmaterial,Damaged,Product,ProductDetails,PackingMaterial,\
-                   PackingDetails,Labour,Invoice,Formula,FormulaMaterials,Production,ProductionDetails,ProductionPacking
+                   PackingDetails,Labour,Invoice,Formula,FormulaMaterials,Production,ProductionDetails,ProductionPacking,\
+                   SalesInvoice,Sales,SalesDetails
 
 
 
@@ -217,3 +218,18 @@ class production_packing_details_join_Serializer(serializers.ModelSerializer):
     class Meta:
         model = ProductionPacking
         fields = ['production_packing_ID','Quantity','producton','packing'] 
+
+# create serializer for sales table -----------------------------------------
+class SalesInvoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SalesInvoice
+        fields = '__all__'
+class SalesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sales
+        fields = '__all__'
+
+class SalesDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SalesDetails
+        fields = '__all__'

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import user,RawMaterial,Vendor,Damaged,Addrawmaterial,Product,ProductDetails,PackingDetails,PackingMaterial,\
-                    Labour,Invoice,Formula,FormulaMaterials,Production,ProductionDetails,ProductionPacking
+                    Labour,Invoice,Formula,FormulaMaterials,Production,ProductionDetails,ProductionPacking,SalesInvoice,\
+                    SalesDetails,Sales
 # Register your models here.
 
 class Adminuser(admin.ModelAdmin):
@@ -39,7 +40,7 @@ class AdminInvoice(admin.ModelAdmin):
 
 #----------------------
 class AdminFormula(admin.ModelAdmin):
-    list_display=(['FormulaID','FormulaName','TotalMaterialsUsed','AddedTimeStamp','UpdatedTimeStamp'])
+    list_display=(['FormulaID','FormulaName','TotalMaterialsUsed','TotalSaledQty','TotalProductionQty'])
 #----------------------
 class AdminFormulaMaterial(admin.ModelAdmin):
     list_display=(['ID','Quantity','MaterialID','FormulaID','AddedTimeStamp','UpdatedTimeStamp'])
@@ -54,6 +55,14 @@ class AdminProductionDetails(admin.ModelAdmin):
 #----------------------
 class AdminProductionPacking(admin.ModelAdmin):
     list_display=(['production_packing_ID','ProductionID','PackingMaterialID','Quantity','AddedTimeStamp','UpdatedTimeStamp'])
+
+#----------------------
+class AdminSalesInvoice(admin.ModelAdmin):
+    list_display=(['InvoiceID','InvoiceNumber','InwardNumber','InvoiceDate','RecievedDate','VendorID'])
+class AdminSales(admin.ModelAdmin):
+    list_display=(['SalesID','TotalProducts','TotalAmount','TransactionDate','InvoiceID','VendorID'])
+class AdminSalesDetails(admin.ModelAdmin):
+    list_display=(['ID','Quantity','Price','FormulaID','SalesID'])
 
 ######################################################################
 
@@ -79,3 +88,7 @@ admin.site.register(FormulaMaterials,AdminFormulaMaterial)
 admin.site.register(Production,AdminProduction)
 admin.site.register(ProductionDetails,AdminProductionDetails)
 admin.site.register(ProductionPacking,AdminProductionPacking)
+#----------------------
+admin.site.register(SalesInvoice,AdminSalesInvoice)
+admin.site.register(Sales,AdminSales)
+admin.site.register(SalesDetails,AdminSalesDetails)

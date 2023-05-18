@@ -174,6 +174,8 @@ class Formula(models.Model):
     FormulaID	= models.IntegerField(primary_key=True)
     FormulaName  = models.CharField(max_length=20)
     TotalMaterialsUsed = models.IntegerField()
+    TotalProductionQty =  models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True,default='0')
+    TotalSaledQty      =  models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True,default="0")
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
 
@@ -218,3 +220,42 @@ class ProductionPacking(models.Model):
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
     def __int__(self):
         return self.production_packing_ID
+    
+##############--- Sales  MODELS ---####################
+class SalesInvoice(models.Model):
+    InvoiceID = models.IntegerField(primary_key=True)
+    InvoiceNumber =	models.CharField(max_length=10)
+    InwardNumber  = models.CharField(max_length=20)
+    InvoiceDate   = models.DateField()
+    RecievedDate  = models.DateField(null=True, blank=True,default="")
+    VendorID = models.IntegerField()
+    AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
+    UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
+
+    def __int__(self):
+        return self.InvoiceID
+    
+class Sales(models.Model):
+    SalesID	= models.IntegerField(primary_key=True)
+    TotalProducts =	models.CharField(max_length=10)
+    TotalAmount  = models.DecimalField(max_digits=10, decimal_places=2)
+    TransactionDate = models.DateTimeField(default=timezone.now)
+    InvoiceID = models.ForeignKey('SalesInvoice', on_delete=models.CASCADE) 
+    VendorID = models.ForeignKey('Vendor', on_delete=models.CASCADE)  
+    AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
+    UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
+   
+    def __int__(self):
+        return self.SalesID
+    
+class SalesDetails(models.Model):
+    ID	= models.AutoField(primary_key=True)
+    Quantity =	models.DecimalField(max_digits=10, decimal_places=2)
+    Price  = models.DecimalField(max_digits=10, decimal_places=2)
+    FormulaID  = models.ForeignKey('Formula', on_delete=models.CASCADE)
+    SalesID = models.ForeignKey('Sales', on_delete=models.CASCADE)  
+    AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
+    UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
+   
+    def __int__(self):
+        return self.ID

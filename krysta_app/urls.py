@@ -7,6 +7,7 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
                   MaterialViewSet ,materialDetail,getrawmaterial_list ,ProductionMaterialViewSet,WhitelabelingViewSet,PackingViewSet,\
                   UpdateInvoiceData,UpdateRawmaterialDetails ,getDamagedItem,Formula_Material_ViewSet,Production_Formula_ViewSet,Production_packing_ViewSet
                   
+                  
                 
 
 from .productApi import addProduct,getProduct,addProductDetails,getProducItem,Update_whitelabel_Details,getProducDetails_item
@@ -14,7 +15,7 @@ from .packingApi import addPacking,getPacking,addPackingDetails,getPackingItem,g
 from .labour import addLabour,getLabour
 from .formula import getformula,addformula,getformulamaterial,addformulamaterial,getformula_ID_Data
 from .production import getProduction,addProduction,addProduction_Packing,getProductionDetails
-
+from .sales import getSalesInvoice,getSalesInvoice_ID_Data,addSalesInvoiceData,getSales,getSales_ID_Data,addSalesData,getSalesdetails
 # router = routers.DefaultRouter()
 # router.register(r'modela', MaterialViewSet)    
 urlpatterns = [
@@ -95,6 +96,15 @@ urlpatterns = [
     #ppproduction details
     path('productionTable_ViewSet/', Production_Formula_ViewSet.as_view()),
     path('production_packingTable_ViewSet/', Production_packing_ViewSet.as_view()),
-    
+    #---- salesInvoice tables ------#  
+    path('salesinvoice/list/', getSalesInvoice, name='getsalesData'),
+    path('salesinvoice/<int:id>/', getSalesInvoice_ID_Data, name='getsalesIdData'),
+    path('salesinvoice/add/', addSalesInvoiceData, name='addsalesIdData'),
+    #---- sales tables ------#  
+    path('sales/list/', getSales, name='getsalesData'),
+    path('sales/<int:id>/', getSales_ID_Data, name='getsalesIdData'),
+    path('sales/add/', addSalesData, name='addsalesIdData'),
+    path('salesDetails/list/', getSalesdetails, name='getsalesDetails'),
+
    
 ]

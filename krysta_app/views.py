@@ -332,7 +332,7 @@ def UpdateRawmaterialDetails(request):
 @api_view(['GET'])
 def getinvoices(request):
     if request.method == 'GET':
-        queryset = Invoice.objects.all()
+        queryset = Invoice.objects.all().order_by('-AddedTimeStamp')
         serializer_data = InvoiceSerializer(queryset ,many=True)
         return Response(serializer_data.data)
 
@@ -390,7 +390,7 @@ def UpdateInvoiceData(request,id):
 
 from rest_framework import generics
 class MaterialViewSet(generics.ListCreateAPIView):
-    queryset =Addrawmaterial.objects.all()
+    queryset =Addrawmaterial.objects.all().order_by('-AddedTimestamp')
     serializer_class = joinmaterialSerializer
     lookup_field = 'MaterialID'
 
