@@ -14,7 +14,7 @@ import datetime
 
 from rest_framework import generics
 from .models import SalesInvoice,Sales,SalesDetails,Vendor,Production,Formula
-from .serializers import SalesInvoiceSerializer,SalesSerializer,SalesDetailsSerializer,FormulaSerializer
+from .serializers import SalesInvoiceSerializer,SalesSerializer,SalesDetailsSerializer,FormulaSerializer,ProductionSerializer
 
 
 current_date = datetime.datetime.now().date()
@@ -24,7 +24,7 @@ current_date_time = datetime.datetime.now()
 @api_view(['GET'])
 def getSalesInvoice(request):
     if request.method == 'GET':
-        queryset = SalesInvoice.objects.all()
+        queryset = SalesInvoice.objects.all().order_by('-AddedTimeStamp')
         serializer_data = SalesInvoiceSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     
@@ -34,6 +34,8 @@ def getSalesInvoice_ID_Data(request,id):
         queryset = SalesInvoice.objects.get(InvoiceID=id)
         serializer_data = SalesInvoiceSerializer(queryset)
         return Response(serializer_data.data)
+    
+
 
 @api_view(['POST'])
 def addSalesInvoiceData(request):
@@ -56,10 +58,25 @@ def addSalesInvoiceData(request):
         reciveddata = request.data['RecievedDate']
         if reciveddata == "":
             request.data['RecievedDate']= "0001-01-01"
+        Invoice_Number = request.data['InvoiceNumber']
+        existinginvoice = SalesInvoice.objects.filter(InvoiceNumber=Invoice_Number).exists()
+        if existinginvoice:
+            return Response({'error': 'Invoice number already exists'},status=status.HTTP_226_IM_USED)
         serializer_data = SalesInvoiceSerializer(data = request.data)
         if serializer_data.is_valid():
             serializer_data.save()
         return Response(serializer_data.data)
+    
+@api_view(['POST'])
+def updateSalesInvoice_ID_Data(request):
+    if request.method == 'POST':
+        id =  request.data['InvoiceID']
+        queryset = SalesInvoice.objects.get(InvoiceID=id)
+        serializer_data = SalesInvoiceSerializer(instance=queryset , data=request.data)
+        if serializer_data.is_valid():
+            serializer_data.save()
+        return Response(serializer_data.data)
+
 
 #sales table apis 
 @api_view(['GET'])
@@ -79,15 +96,15 @@ def getSales_ID_Data(request,id):
 @api_view(['POST'])
 def addSalesData(request):
     if request.method == 'POST':
-        values = list(request.data['productioninfo'].values())
-        alternative_values = values[::2]  # Get alternative values using slicing
-        sum_tot_amount = sum(int(value) for value in alternative_values) 
+        totAmount = 0
+        for items in request.data['productioninfo']:
+            totAmount += int(items['price'])
         max_value = Sales.objects.aggregate(max_value=Max('SalesID'))
         max_value = max_value['max_value']+1
         sales_data = {
             "SalesID": max_value,
             'TotalProducts':str(len(request.data['productIdata'])),
-            'TotalAmount' :str(sum_tot_amount),
+            'TotalAmount' :totAmount,
             'TransactionDate' :current_date_time,
             'InvoiceID' :request.data['salsedata']['InvoiceID'],
             'VendorID' :request.data['salsedata']['VendorID'],
@@ -98,33 +115,38 @@ def addSalesData(request):
         if serializer_data.is_valid():
             serializer_data.save()
 
-        for item in request.data['productIdata']:
+        for item,proInfo in zip(request.data['productIdata'],request.data['productioninfo']):
             queryset = Production.objects.get(ProductionID=item["productId"])
             formulaId = queryset.FormulaID_id
             salesid = sales_data['SalesID']
-            pairs = list(request.data['productioninfo'].items())[:2]  
-            first_two_pairs = dict(pairs)  
-            two_pairs = list(first_two_pairs.values())
-            amount = two_pairs[0]
-            qty = two_pairs[1]
-            del request.data['productioninfo'][pairs[0][0]] 
-            del request.data['productioninfo'][pairs[1][0]]
-
             salesDetails_data = {
                     "ID": 0,
-                    "Quantity": qty,
-                    "Price": amount,
+                    "Quantity": int(proInfo["quantity"]),
+                    "Price": int(proInfo["price"]),
                     "AddedTimeStamp": current_date_time,
                     "UpdatedTimeStamp": current_date_time,
                     "FormulaID": formulaId,
                     "SalesID": salesid
             }
-            # queryset = Formula.objects.get(FormulaID=salesDetails_data["FormulaID"])
+         
+            diff_qty= queryset.ProductionQuantity - int(proInfo["quantity"])
+            update_production = {
+                 'ProductionID'	:item["productId"],
+                 'TransactionDate':queryset.TransactionDate,
+                 'FormulaID' :queryset.FormulaID_id,
+                 'ProductionQuantity' :diff_qty,
+                 'AddedTimeStamp'	:queryset.AddedTimeStamp,
+                 'UpdatedTimeStamp':queryset.UpdatedTimeStamp
+            }
+            serializer_Info = ProductionSerializer(instance=queryset, data=update_production)
+            if serializer_Info.is_valid():
+                serializer_Info.save()
+
             serializer_info = SalesDetailsSerializer(data=salesDetails_data)
             if serializer_info.is_valid():
                 serializer_info.save()
                 queryset = Formula.objects.get(FormulaID=salesDetails_data["FormulaID"])
-                queryset.TotalSaledQty = qty
+                queryset.TotalSaledQty += int(proInfo["quantity"])
                 formula_serializer = FormulaSerializer(instance=queryset, data=queryset.__dict__)
                 if formula_serializer.is_valid():
                     formula_serializer.save()

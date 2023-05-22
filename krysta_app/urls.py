@@ -15,7 +15,7 @@ from .packingApi import addPacking,getPacking,addPackingDetails,getPackingItem,g
 from .labour import addLabour,getLabour
 from .formula import getformula,addformula,getformulamaterial,addformulamaterial,getformula_ID_Data
 from .production import getProduction,addProduction,addProduction_Packing,getProductionDetails
-from .sales import getSalesInvoice,getSalesInvoice_ID_Data,addSalesInvoiceData,getSales,getSales_ID_Data,addSalesData,getSalesdetails
+from .sales import getSalesInvoice,getSalesInvoice_ID_Data,addSalesInvoiceData,getSales,getSales_ID_Data,addSalesData,getSalesdetails,updateSalesInvoice_ID_Data
 # router = routers.DefaultRouter()
 # router.register(r'modela', MaterialViewSet)    
 urlpatterns = [
@@ -100,11 +100,11 @@ urlpatterns = [
     path('salesinvoice/list/', getSalesInvoice, name='getsalesData'),
     path('salesinvoice/<int:id>/', getSalesInvoice_ID_Data, name='getsalesIdData'),
     path('salesinvoice/add/', addSalesInvoiceData, name='addsalesIdData'),
+    path('salesInvoiceupdate/', updateSalesInvoice_ID_Data , name="updatesalesrecord"),
     #---- sales tables ------#  
     path('sales/list/', getSales, name='getsalesData'),
     path('sales/<int:id>/', getSales_ID_Data, name='getsalesIdData'),
     path('sales/add/', addSalesData, name='addsalesIdData'),
-    path('salesDetails/list/', getSalesdetails, name='getsalesDetails'),
-
-   
+    path('salesDetails/list/', getSalesdetails, name='getsalesDetails')
+     
 ]
