@@ -28,7 +28,7 @@ current_date_time = datetime.datetime.now()
 @api_view(['GET','POST'])
 def getPacking(request):
     if request.method == 'GET':
-        queryset = PackingMaterial.objects.all()
+        queryset = PackingMaterial.objects.all().order_by('-AddedTimestamp')
         serializer_data = PackingSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     

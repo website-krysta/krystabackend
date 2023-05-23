@@ -130,7 +130,7 @@ def deleteUser(request,id):
 @api_view(['GET','POST'])
 def getmaterials(request):
     if request.method == 'GET':
-        queryset = RawMaterial.objects.all()
+        queryset = RawMaterial.objects.all().order_by('-AddedTimestamp')
         serializer_data = meterialSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     
@@ -423,7 +423,7 @@ class PackingViewSet(generics.ListCreateAPIView):
 
 #packing join product + formula
 class Formula_Material_ViewSet(generics.ListCreateAPIView):
-    queryset =FormulaMaterials.objects.all()
+    queryset =FormulaMaterials.objects.all().order_by('-AddedTimeStamp')
     serializer_class = formulaMaterial_detailsSerializer
     lookup_field = 'FormulaID'
 
@@ -435,7 +435,7 @@ class Production_Formula_ViewSet(generics.ListCreateAPIView):
 
 #view table  fro production  join production + packing materials
 class Production_Formula_ViewSet(generics.ListCreateAPIView):
-    queryset =Production.objects.all()
+    queryset =Production.objects.all().order_by('-AddedTimeStamp')
     serializer_class = viewProductionFormulaSerializer
     lookup_field = 'FormulaID'
 

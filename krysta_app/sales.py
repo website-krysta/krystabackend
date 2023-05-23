@@ -14,7 +14,7 @@ import datetime
 
 from rest_framework import generics
 from .models import SalesInvoice,Sales,SalesDetails,Vendor,Production,Formula
-from .serializers import SalesInvoiceSerializer,SalesSerializer,SalesDetailsSerializer,FormulaSerializer,ProductionSerializer
+from .serializers import SalesInvoiceSerializer,SalesSerializer,SalesDetailsSerializer,FormulaSerializer,ProductionSerializer,join_SalesDetails_Serializer
 
 
 current_date = datetime.datetime.now().date()
@@ -129,18 +129,18 @@ def addSalesData(request):
                     "SalesID": salesid
             }
          
-            diff_qty= queryset.ProductionQuantity - int(proInfo["quantity"])
-            update_production = {
-                 'ProductionID'	:item["productId"],
-                 'TransactionDate':queryset.TransactionDate,
-                 'FormulaID' :queryset.FormulaID_id,
-                 'ProductionQuantity' :diff_qty,
-                 'AddedTimeStamp'	:queryset.AddedTimeStamp,
-                 'UpdatedTimeStamp':queryset.UpdatedTimeStamp
-            }
-            serializer_Info = ProductionSerializer(instance=queryset, data=update_production)
-            if serializer_Info.is_valid():
-                serializer_Info.save()
+            # diff_qty= queryset.ProductionQuantity - int(proInfo["quantity"])
+            # update_production = {
+            #      'ProductionID'	:item["productId"],
+            #      'TransactionDate':queryset.TransactionDate,
+            #      'FormulaID' :queryset.FormulaID_id,
+            #      'ProductionQuantity' :diff_qty,
+            #      'AddedTimeStamp'	:queryset.AddedTimeStamp,
+            #      'UpdatedTimeStamp':queryset.UpdatedTimeStamp
+            # }
+            # serializer_Info = ProductionSerializer(instance=queryset, data=update_production)
+            # if serializer_Info.is_valid():
+            #     serializer_Info.save()
 
             serializer_info = SalesDetailsSerializer(data=salesDetails_data)
             if serializer_info.is_valid():
@@ -159,3 +159,10 @@ def getSalesdetails(request):
         queryset = SalesDetails.objects.all()
         serializer_data = SalesDetailsSerializer(queryset ,many=True)
         return Response(serializer_data.data)
+
+from rest_framework import generics
+# from rest_framework.generics import RetrieveAPIView
+class salesDetail_view(generics.ListCreateAPIView):
+    queryset =SalesDetails.objects.all()
+    serializer_class = join_SalesDetails_Serializer
+    lookup_field = 'SalesID'

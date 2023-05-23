@@ -30,7 +30,7 @@ current_date_time = datetime.datetime.now()
 @api_view(['GET','POST'])
 def getProduct(request):
     if request.method == 'GET':
-        queryset = Product.objects.all()
+        queryset = Product.objects.all().order_by('-AddedTimestamp')
         serializer_data = ProductlSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     

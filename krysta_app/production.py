@@ -17,7 +17,7 @@ import datetime
 from rest_framework import generics
 from .models import Production,Formula,FormulaMaterials,ProductionDetails,ProductionPacking,RawMaterial,PackingMaterial
 from .serializers import ProductionSerializer,ProductionDetailsSerializer,PaackingDetailsSerializer,meterialSerializer,\
-                         PackingSerializer
+                         PackingSerializer,FormulaSerializer
 
 
 current_date = datetime.datetime.now().date()
@@ -50,6 +50,11 @@ def addProduction(request):
         production_data = ProductionSerializer(data = request.data)
         if production_data.is_valid():
             production_data.save()
+            queryset = Formula.objects.get(FormulaID=request.data['FormulaID'])
+            queryset.TotalProductionQty = queryset.TotalProductionQty + int(request.data['ProductionQuantity'])
+            serializer_data = FormulaSerializer(instance=queryset,data = queryset.__dict__)
+            if serializer_data.is_valid():
+                serializer_data.save()
             return Response(production_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(production_data.errors, status=status.HTTP_400_BAD_REQUEST)
 

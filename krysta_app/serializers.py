@@ -191,7 +191,7 @@ class joinProductionFormulaSerializer(serializers.ModelSerializer):
 class join_Formula_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Formula
-        fields = ['FormulaID','FormulaName','AddedTimeStamp']
+        fields = ['FormulaID','FormulaName','TotalProductionQty','TotalSaledQty','AddedTimeStamp']
 
 class viewProductionFormulaSerializer(serializers.ModelSerializer):
     forumula = join_Formula_Serializer(source='FormulaID')
@@ -233,3 +233,22 @@ class SalesDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = SalesDetails
         fields = '__all__'
+
+# create join tables serializer for sales table -----------------------------------------
+class Sales_InvoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SalesInvoice
+        fields = ['InvoiceID','InvoiceNumber','InwardNumber','InvoiceDate','RecievedDate','VendorID'] 
+
+class Sales_Serializer(serializers.ModelSerializer):
+    sales_invoice = Sales_InvoiceSerializer(source='InvoiceID')
+    class Meta:
+        model = Sales
+        fields = ['SalesID','TotalProducts','TotalAmount','TransactionDate','InvoiceID','VendorID','sales_invoice'] 
+
+class join_SalesDetails_Serializer(serializers.ModelSerializer):
+    SaleInfo = Sales_Serializer(source='SalesID')
+    formulainfo = join_Formula_Serializer(source='FormulaID')
+    class Meta:
+        model = SalesDetails
+        fields = ['ID','Quantity','Price','FormulaID','SalesID','SaleInfo','formulainfo']

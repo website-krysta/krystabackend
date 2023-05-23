@@ -81,8 +81,11 @@ def addformula(request):
             formula_material['MaterialID']= mid
             formula_material['FormulaID']= max_value
             aFormula_obj.append(formula_material)
-
+       
         formula_data = FormulaSerializer( data=formula)
+        existingformulaName = Formula.objects.filter(FormulaName=formula['FormulaName']).exists()
+        if existingformulaName:
+            return Response({'error': 'Formula Name already exists'},status=status.HTTP_226_IM_USED)
         if formula_data.is_valid():
             formula_data.save()
             for fmobj in aFormula_obj: 
