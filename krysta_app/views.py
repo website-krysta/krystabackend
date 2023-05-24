@@ -130,7 +130,7 @@ def deleteUser(request,id):
 @api_view(['GET','POST'])
 def getmaterials(request):
     if request.method == 'GET':
-        queryset = RawMaterial.objects.all().order_by('-AddedTimestamp')
+        queryset = RawMaterial.objects.all().order_by('-MaterialID')
         serializer_data = meterialSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     
