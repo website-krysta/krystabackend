@@ -259,3 +259,15 @@ class SalesDetails(models.Model):
    
     def __int__(self):
         return self.ID
+    
+class SalesDamage(models.Model):
+    SalesDamageID	= models.AutoField(primary_key=True)
+    DamagedQuantity =	models.DecimalField(max_digits=10, decimal_places=2)
+    DamageReason =	models.CharField(max_length=500)
+    LossPrice  = models.DecimalField(max_digits=10, decimal_places=2)
+    ID  = models.ForeignKey('SalesDetails', on_delete=models.CASCADE)
+    AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
+    UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
+   
+    def __int__(self):
+        return self.SalesDamageID

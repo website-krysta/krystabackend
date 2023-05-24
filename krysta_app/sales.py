@@ -13,8 +13,9 @@ import datetime
 
 
 from rest_framework import generics
-from .models import SalesInvoice,Sales,SalesDetails,Vendor,Production,Formula
-from .serializers import SalesInvoiceSerializer,SalesSerializer,SalesDetailsSerializer,FormulaSerializer,ProductionSerializer,join_SalesDetails_Serializer
+from .models import SalesInvoice,Sales,SalesDetails,Vendor,Production,Formula,SalesDamage
+from .serializers import SalesInvoiceSerializer,SalesSerializer,SalesDetailsSerializer,FormulaSerializer,ProductionSerializer,\
+    join_SalesDetails_Serializer,SalesDamagedSerializer
 
 
 current_date = datetime.datetime.now().date()
@@ -158,6 +159,30 @@ def getSalesdetails(request):
     if request.method == 'GET':
         queryset = SalesDetails.objects.all()
         serializer_data = SalesDetailsSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
+
+@api_view(['POST'])
+def addSalesDamagedData(request):
+     if request.method == 'POST':
+        salse_obj = {
+            'SalesDamageID':0,
+            'DamagedQuantity': "",
+            'DamageReason': "",
+            'LossPrice': "",
+            'ID':'',
+            'AddedTimeStamp':'',
+            'UpdatedTimeStamp':'',
+        }
+        salse_obj['DamagedQuantity'] = int(request.data["damaged"]['DamagedQuantity'])
+        salse_obj['DamageReason'] = request.data["damaged"]['DamageReason']
+        salse_obj['LossPrice'] = int(request.data["damaged"]['LossPrice'])
+        salse_obj['ID']=int(request.data["salseid"])
+        salse_obj['AddedTimeStamp']=current_date_time
+        salse_obj['UpdatedTimeStamp']=current_date_time
+
+        serializer_data = SalesDamagedSerializer(data = salse_obj)
+        if serializer_data.is_valid():
+            serializer_data.save()
         return Response(serializer_data.data)
 
 from rest_framework import generics

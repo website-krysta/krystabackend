@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import user,RawMaterial,Vendor,Addrawmaterial,Damaged,Product,ProductDetails,PackingMaterial,\
                    PackingDetails,Labour,Invoice,Formula,FormulaMaterials,Production,ProductionDetails,ProductionPacking,\
-                   SalesInvoice,Sales,SalesDetails
+                   SalesInvoice,Sales,SalesDetails,SalesDamage
 
 
 
@@ -232,6 +232,10 @@ class SalesSerializer(serializers.ModelSerializer):
 class SalesDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = SalesDetails
+        fields = '__all__'
+class SalesDamagedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SalesDamage
         fields = '__all__'
 
 # create join tables serializer for sales table -----------------------------------------
