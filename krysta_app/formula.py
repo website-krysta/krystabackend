@@ -17,6 +17,7 @@ import datetime
 
 
 from rest_framework import generics
+from django.db.models import F
 from .models import Formula,FormulaMaterials,RawMaterial
 from .serializers import FormulaSerializer,FormulaMaterialsSerializer
 
@@ -30,6 +31,13 @@ current_date_time = datetime.datetime.now()
 def getformula(request):
     if request.method == 'GET':
         queryset = Formula.objects.all()
+        serializer_data = FormulaSerializer(queryset ,many=True)
+        return Response(serializer_data.data)
+    
+@api_view(['GET'])
+def getProductionformula(request):
+    if request.method == 'GET':
+        queryset = Formula.objects.filter(TotalProductionQty__gt=F('TotalSaledQty'))
         serializer_data = FormulaSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     

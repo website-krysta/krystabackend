@@ -117,8 +117,8 @@ def addSalesData(request):
             serializer_data.save()
 
         for item,proInfo in zip(request.data['productIdata'],request.data['productioninfo']):
-            queryset = Production.objects.get(ProductionID=item["productId"])
-            formulaId = queryset.FormulaID_id
+            # queryset = Production.objects.get(ProductionID=item["productId"])
+            formulaId = item['productId']
             salesid = sales_data['SalesID']
             salesDetails_data = {
                     "ID": 0,
@@ -190,4 +190,4 @@ from rest_framework import generics
 class salesDetail_view(generics.ListCreateAPIView):
     queryset =SalesDetails.objects.all()
     serializer_class = join_SalesDetails_Serializer
-    lookup_field = 'SalesID'
+    lookup_field = 'ID'

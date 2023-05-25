@@ -265,7 +265,7 @@ class SalesDamage(models.Model):
     DamagedQuantity =	models.DecimalField(max_digits=10, decimal_places=2)
     DamageReason =	models.CharField(max_length=500)
     LossPrice  = models.DecimalField(max_digits=10, decimal_places=2)
-    ID  = models.ForeignKey('SalesDetails', on_delete=models.CASCADE)
+    ID  = models.ForeignKey('SalesDetails',related_name='sales_damage', on_delete=models.CASCADE)
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
    

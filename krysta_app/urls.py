@@ -13,7 +13,7 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
 from .productApi import addProduct,getProduct,addProductDetails,getProducItem,Update_whitelabel_Details,getProducDetails_item
 from .packingApi import addPacking,getPacking,addPackingDetails,getPackingItem,getpacking_material_list,UpdatePackingDetails
 from .labour import addLabour,getLabour
-from .formula import getformula,addformula,getformulamaterial,addformulamaterial,getformula_ID_Data
+from .formula import getformula,addformula,getformulamaterial,addformulamaterial,getformula_ID_Data,getProductionformula
 from .production import getProduction,addProduction,addProduction_Packing,getProductionDetails
 from .sales import getSalesInvoice,getSalesInvoice_ID_Data,addSalesInvoiceData,getSales,getSales_ID_Data,addSalesData,getSalesdetails,updateSalesInvoice_ID_Data,\
                    salesDetail_view,addSalesDamagedData
@@ -104,6 +104,7 @@ urlpatterns = [
     path('salesInvoiceupdate/', updateSalesInvoice_ID_Data , name="updatesalesrecord"),
     #---- sales tables ------#  
     path('sales/list/', getSales, name='getsalesData'),
+    path('salesProducts/list/', getProductionformula, name='getsalesProducts'),
     path('sales/<int:id>/', getSales_ID_Data, name='getsalesIdData'),
     path('sales/add/', addSalesData, name='addsalesIdData'),
     path('salesDetails/list/', getSalesdetails, name='getsalesDetails'),

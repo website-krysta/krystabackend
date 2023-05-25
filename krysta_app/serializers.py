@@ -245,14 +245,23 @@ class Sales_InvoiceSerializer(serializers.ModelSerializer):
         fields = ['InvoiceID','InvoiceNumber','InwardNumber','InvoiceDate','RecievedDate','VendorID'] 
 
 class Sales_Serializer(serializers.ModelSerializer):
-    sales_invoice = Sales_InvoiceSerializer(source='InvoiceID')
+    # sales_invoice = Sales_InvoiceSerializer(source='InvoiceID')
     class Meta:
         model = Sales
-        fields = ['SalesID','TotalProducts','TotalAmount','TransactionDate','InvoiceID','VendorID','sales_invoice'] 
+        fields = ['SalesID','TotalProducts','TotalAmount','TransactionDate','InvoiceID','VendorID'] 
+
+class Sales_Damage_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = SalesDamage
+        fields = ['SalesDamageID', 'DamagedQuantity', 'DamageReason', 'LossPrice']
 
 class join_SalesDetails_Serializer(serializers.ModelSerializer):
     SaleInfo = Sales_Serializer(source='SalesID')
     formulainfo = join_Formula_Serializer(source='FormulaID')
+    sales_damage = Sales_Damage_Serializer(many=True, read_only=True)
+
     class Meta:
         model = SalesDetails
-        fields = ['ID','Quantity','Price','FormulaID','SalesID','SaleInfo','formulainfo']
+        fields = ['ID','Quantity','Price','FormulaID','SalesID','SaleInfo','formulainfo','sales_damage']
+
+
