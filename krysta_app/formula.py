@@ -30,7 +30,7 @@ current_date_time = datetime.datetime.now()
 @api_view(['GET'])
 def getformula(request):
     if request.method == 'GET':
-        queryset = Formula.objects.all().order_by('-AddedTimeStamp')
+        queryset = Formula.objects.all().order_by('-FormulaID')
         serializer_data = FormulaSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     

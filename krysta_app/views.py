@@ -172,7 +172,7 @@ def deletematerial(request,id):
 @api_view(['GET'])
 def getvendorlist(request):
     if request.method == 'GET':
-        queryset = Vendor.objects.all()
+        queryset = Vendor.objects.all().order_by('-VendorID')
         serializer_data = VendorSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     
