@@ -17,7 +17,7 @@ import datetime
 from rest_framework import generics
 from .models import Production,Formula,FormulaMaterials,ProductionDetails,ProductionPacking,RawMaterial,PackingMaterial
 from .serializers import ProductionSerializer,ProductionDetailsSerializer,PaackingDetailsSerializer,meterialSerializer,\
-                         PackingSerializer,FormulaSerializer
+                         PackingSerializer,FormulaSerializer,view_Production_Serializer
 
 
 current_date = datetime.datetime.now().date()
@@ -120,3 +120,9 @@ def addProduction_Packing(request):
             
             
             
+from rest_framework import generics
+# from rest_framework.generics import RetrieveAPIView
+class productioninfo_view(generics.ListCreateAPIView):
+    queryset =Production.objects.all()
+    serializer_class = view_Production_Serializer
+    lookup_field = 'ProductionID'

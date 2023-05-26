@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import user,RawMaterial,Vendor,Addrawmaterial,Damaged,Product,ProductDetails,PackingMaterial,\
                    PackingDetails,Labour,Invoice,Formula,FormulaMaterials,Production,ProductionDetails,ProductionPacking,\
-                   SalesInvoice,Sales,SalesDetails,SalesDamage
+                   SalesInvoice,Sales,SalesDetails,SalesDamage,Category
 
 
 
@@ -63,6 +63,10 @@ class InvoiceSerializer(serializers.ModelSerializer):
 class FormulaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Formula
+        fields = '__all__'
+class FormulaCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
         fields = '__all__'
 class FormulaMaterialsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -265,3 +269,23 @@ class join_SalesDetails_Serializer(serializers.ModelSerializer):
         fields = ['ID','Quantity','Price','FormulaID','SalesID','SaleInfo','formulainfo','sales_damage']
 
 
+# formula+production+packing
+
+class view_Production_DetailsSerializer(serializers.ModelSerializer):
+    Material_info = Stock_rawmaterial_Serializer(source='MaterialID')
+    class Meta:
+        model = ProductionDetails
+        fields = ['Pro_detailsID','MaterialID','Quantity','Material_info']
+
+class view_Production_Serializer(serializers.ModelSerializer):
+    production_material = view_Production_DetailsSerializer(many=True, read_only=True)
+    class Meta:
+        model = Production
+        fields = ['ProductionID','ProductionQuantity','AddedTimeStamp','TransactionDate','FormulaID','production_material']
+
+
+class production_Formula_Serializer(serializers.ModelSerializer):
+    production_details = view_Production_Serializer(many=True, read_only=True)
+    class Meta:
+        model = Formula
+        fields = ['FormulaID','FormulaName','TotalProductionQty','TotalSaledQty','production_details']

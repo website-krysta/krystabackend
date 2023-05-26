@@ -13,8 +13,8 @@ from .views import UserList,Useradd,Userupdate,getUserdate,deleteUser,getmateria
 from .productApi import addProduct,getProduct,addProductDetails,getProducItem,Update_whitelabel_Details,getProducDetails_item
 from .packingApi import addPacking,getPacking,addPackingDetails,getPackingItem,getpacking_material_list,UpdatePackingDetails
 from .labour import addLabour,getLabour
-from .formula import getformula,addformula,getformulamaterial,addformulamaterial,getformula_ID_Data,getProductionformula
-from .production import getProduction,addProduction,addProduction_Packing,getProductionDetails
+from .formula import getformula,addformula,getformulamaterial,addformulamaterial,getformula_ID_Data,getProductionformula,getFormulaCategory
+from .production import getProduction,addProduction,addProduction_Packing,getProductionDetails,productioninfo_view
 from .sales import getSalesInvoice,getSalesInvoice_ID_Data,addSalesInvoiceData,getSales,getSales_ID_Data,addSalesData,getSalesdetails,updateSalesInvoice_ID_Data,\
                    salesDetail_view,addSalesDamagedData
 # router = routers.DefaultRouter()
@@ -72,6 +72,7 @@ urlpatterns = [
     path('invoce/updateinvoice/<int:id>/', UpdateInvoiceData, name='update_invoiceData '),
     #------formula ------#   
     path('formula/list/', getformula, name='getformula'),
+    path('formulaCatagiory/list/', getFormulaCategory, name='getformulaCatagiory'),
     path('formula/add/', addformula, name='addformula'),
     path('formulamaterial/list/', getformulamaterial, name='getformula_material'),
     path('formulamaterial/add/', addformulamaterial, name='addformula_material'),
@@ -97,6 +98,8 @@ urlpatterns = [
     #ppproduction details
     path('productionTable_ViewSet/', Production_Formula_ViewSet.as_view()),
     path('production_packingTable_ViewSet/', Production_packing_ViewSet.as_view()),
+    # new production tables 
+    path('productioninfo_view/', productioninfo_view.as_view()),
     #---- salesInvoice tables ------#  
     path('salesinvoice/list/', getSalesInvoice, name='getsalesData'),
     path('salesinvoice/<int:id>/', getSalesInvoice_ID_Data, name='getsalesIdData'),

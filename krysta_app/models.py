@@ -176,6 +176,7 @@ class Formula(models.Model):
     TotalMaterialsUsed = models.IntegerField()
     TotalProductionQty =  models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True,default='0')
     TotalSaledQty      =  models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True,default="0")
+    Category = models.ForeignKey('Category', on_delete=models.CASCADE,default="1")
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
 
@@ -194,7 +195,7 @@ class FormulaMaterials(models.Model):
 class Production(models.Model):		
     ProductionID	= models.IntegerField(primary_key=True)
     TransactionDate = models.DateTimeField(default=timezone.now)
-    FormulaID  = models.ForeignKey('Formula', on_delete=models.CASCADE)
+    FormulaID  = models.ForeignKey('Formula',related_name='production_details', on_delete=models.CASCADE)
     ProductionQuantity = models.DecimalField(max_digits=10, decimal_places=2)
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
@@ -203,7 +204,7 @@ class Production(models.Model):
     
 class ProductionDetails(models.Model):		
     Pro_detailsID	= models.AutoField(primary_key=True)
-    ProductionID = models.ForeignKey('Production', on_delete=models.CASCADE) 
+    ProductionID = models.ForeignKey('Production',related_name='production_material', on_delete=models.CASCADE) 
     MaterialID = models.ForeignKey('RawMaterial', on_delete=models.CASCADE,default=1) 
     Quantity = models.DecimalField(max_digits=10, decimal_places=2)
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
@@ -213,7 +214,7 @@ class ProductionDetails(models.Model):
 
 class ProductionPacking(models.Model):		
     production_packing_ID	= models.AutoField(primary_key=True)
-    ProductionID = models.ForeignKey('Production', on_delete=models.CASCADE) 
+    ProductionID = models.ForeignKey('Production',related_name='packing_material',on_delete=models.CASCADE) 
     PackingMaterialID = models.ForeignKey('PackingMaterial', on_delete=models.CASCADE,default=1) 
     Quantity = models.DecimalField(max_digits=10, decimal_places=2)
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
@@ -271,3 +272,12 @@ class SalesDamage(models.Model):
    
     def __int__(self):
         return self.SalesDamageID
+    
+class Category(models.Model):
+   ID	= models.AutoField(primary_key=True)
+   Name =	models.CharField(max_length=20)
+   def __int__(self):
+        return self.ID
+
+     
+     

@@ -18,8 +18,8 @@ import datetime
 
 from rest_framework import generics
 from django.db.models import F
-from .models import Formula,FormulaMaterials,RawMaterial
-from .serializers import FormulaSerializer,FormulaMaterialsSerializer
+from .models import Formula,FormulaMaterials,RawMaterial,Category
+from .serializers import FormulaSerializer,FormulaMaterialsSerializer,FormulaCategorySerializer
 
 
 current_date = datetime.datetime.now().date()
@@ -30,7 +30,7 @@ current_date_time = datetime.datetime.now()
 @api_view(['GET'])
 def getformula(request):
     if request.method == 'GET':
-        queryset = Formula.objects.all()
+        queryset = Formula.objects.all().order_by('-AddedTimeStamp')
         serializer_data = FormulaSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     
@@ -51,12 +51,14 @@ def addformula(request):
         del request.data['formulaname']["FormulaName"]
         count_of_material = len(request.data['formulaname'])   
         mtqty= request.data['formulaname']  
+        CategoryId = request.data['formulaname']['category'] 
         material_qty  = list(mtqty.values())
         #formula add
         formula = {
         'FormulaID': 0,
         'FormulaName': '',
         'TotalMaterialsUsed':'',
+        'Category':"",
         'AddedTimeStamp': '',
         'UpdatedTimeStamp': ''
         }
@@ -64,6 +66,7 @@ def addformula(request):
         formula['FormulaID'] = max_value
         formula['FormulaName']= formula_name
         formula['TotalMaterialsUsed']= count_of_material
+        formula['Category']= CategoryId
         formula['AddedTimeStamp']= current_date_time
         formula['UpdatedTimeStamp']= current_date_time
    
@@ -129,4 +132,11 @@ def addformulamaterial(request):
             formulamaterial_data.save()
             return Response(formulamaterial_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(formulamaterial_data.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def getFormulaCategory(request):
+    if request.method == 'GET':
+        queryset = Category.objects.all()
+        serializer_data = FormulaCategorySerializer(queryset ,many=True)
+        return Response(serializer_data.data)
     
