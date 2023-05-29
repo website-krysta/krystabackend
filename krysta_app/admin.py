@@ -47,7 +47,7 @@ class AdminFormulaMaterial(admin.ModelAdmin):
 
 #----------------------
 class AdminProduction(admin.ModelAdmin):
-    list_display=(['ProductionID','TransactionDate','FormulaID','ProductionQuantity','AddedTimeStamp','UpdatedTimeStamp'])
+    list_display=(['ProductionID','BatchNo','TransactionDate','FormulaID','ProductionQuantity','AddedTimeStamp','UpdatedTimeStamp'])
 #----------------------
 class AdminProductionDetails(admin.ModelAdmin):
     list_display=(['Pro_detailsID','ProductionID','MaterialID','Quantity','AddedTimeStamp','UpdatedTimeStamp'])
@@ -58,7 +58,7 @@ class AdminProductionPacking(admin.ModelAdmin):
 
 #----------------------
 class AdminSalesInvoice(admin.ModelAdmin):
-    list_display=(['InvoiceID','InvoiceNumber','InwardNumber','InvoiceDate','RecievedDate','VendorID'])
+    list_display=(['InvoiceID','InvoiceNumber','BatchNo','InwardNumber','InvoiceDate','RecievedDate','VendorID'])
 class AdminSales(admin.ModelAdmin):
     list_display=(['SalesID','TotalProducts','TotalAmount','TransactionDate','InvoiceID','VendorID'])
 class AdminSalesDetails(admin.ModelAdmin):

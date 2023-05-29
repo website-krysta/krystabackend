@@ -195,6 +195,7 @@ class FormulaMaterials(models.Model):
 class Production(models.Model):		
     ProductionID	= models.IntegerField(primary_key=True)
     TransactionDate = models.DateTimeField(default=timezone.now)
+    BatchNo = models.CharField(max_length=25,null=True, blank=True,default="")
     FormulaID  = models.ForeignKey('Formula',related_name='production_details', on_delete=models.CASCADE)
     ProductionQuantity = models.DecimalField(max_digits=10, decimal_places=2)
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
@@ -229,6 +230,7 @@ class SalesInvoice(models.Model):
     InwardNumber  = models.CharField(max_length=20)
     InvoiceDate   = models.DateField()
     RecievedDate  = models.DateField(null=True, blank=True,default="")
+    BatchNo = models.CharField(max_length=25,null=True, blank=True,default="")
     VendorID = models.IntegerField()
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)

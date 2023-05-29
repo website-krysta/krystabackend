@@ -201,7 +201,7 @@ class viewProductionFormulaSerializer(serializers.ModelSerializer):
     forumula = join_Formula_Serializer(source='FormulaID')
     class Meta:
         model = Production
-        fields = ['ProductionID','ProductionQuantity','AddedTimeStamp','TransactionDate','FormulaID','forumula']
+        fields = ['ProductionID','BatchNo','ProductionQuantity','AddedTimeStamp','TransactionDate','FormulaID','forumula']
 
 
 # detals
@@ -281,7 +281,7 @@ class view_Production_Serializer(serializers.ModelSerializer):
     production_material = view_Production_DetailsSerializer(many=True, read_only=True)
     class Meta:
         model = Production
-        fields = ['ProductionID','ProductionQuantity','AddedTimeStamp','TransactionDate','FormulaID','production_material']
+        fields = ['ProductionID','BatchNo','ProductionQuantity','AddedTimeStamp','TransactionDate','FormulaID','production_material']
 
 
 class production_Formula_Serializer(serializers.ModelSerializer):

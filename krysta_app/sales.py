@@ -25,7 +25,7 @@ current_date_time = datetime.datetime.now()
 @api_view(['GET'])
 def getSalesInvoice(request):
     if request.method == 'GET':
-        queryset = SalesInvoice.objects.all().order_by('-AddedTimeStamp')
+        queryset = SalesInvoice.objects.all().order_by('-InvoiceID','-AddedTimeStamp')
         serializer_data = SalesInvoiceSerializer(queryset ,many=True)
         return Response(serializer_data.data)
     
@@ -58,7 +58,7 @@ def addSalesInvoiceData(request):
         request.data[get_update_time] = current_date_time
         reciveddata = request.data['RecievedDate']
         if reciveddata == "":
-            request.data['RecievedDate']= "0001-01-01"
+            request.data['RecievedDate']= None
         Invoice_Number = request.data['InvoiceNumber']
         existinginvoice = SalesInvoice.objects.filter(InvoiceNumber=Invoice_Number).exists()
         if existinginvoice:
