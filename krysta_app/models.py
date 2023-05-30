@@ -222,7 +222,18 @@ class ProductionPacking(models.Model):
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
     def __int__(self):
         return self.production_packing_ID
-    
+
+class ProductionDamage(models.Model):
+    ProductionDamageID	= models.AutoField(primary_key=True)
+    DamagedQuantity =	models.DecimalField(max_digits=10, decimal_places=2)
+    DamageReason =	models.CharField(max_length=500)
+    LossPrice  = models.DecimalField(max_digits=10, decimal_places=2)
+    ID  = models.ForeignKey('Production',related_name='production_damage', on_delete=models.CASCADE,null=True, blank=True,default="")
+    AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
+    UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
+   
+    def __int__(self):
+        return self.ProductionDamageID   
 ##############--- Sales  MODELS ---####################
 class SalesInvoice(models.Model):
     InvoiceID = models.IntegerField(primary_key=True)
@@ -255,8 +266,10 @@ class SalesDetails(models.Model):
     ID	= models.AutoField(primary_key=True)
     Quantity =	models.DecimalField(max_digits=10, decimal_places=2)
     Price  = models.DecimalField(max_digits=10, decimal_places=2)
-    FormulaID  = models.ForeignKey('Formula', on_delete=models.CASCADE)
+    FormulaID  = models.ForeignKey('Formula', on_delete=models.CASCADE,null=True, blank=True,default="")
+    ProductID  = models.ForeignKey('Product', on_delete=models.CASCADE,null=True, blank=True,default="") 
     SalesID = models.ForeignKey('Sales', on_delete=models.CASCADE)  
+    Type = models.CharField(max_length=30,null=True, blank=True,default="")
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
    

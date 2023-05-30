@@ -15,9 +15,10 @@ import datetime
 
 
 from rest_framework import generics
-from .models import Production,Formula,FormulaMaterials,ProductionDetails,ProductionPacking,RawMaterial,PackingMaterial
+from .models import Production,Formula,FormulaMaterials,ProductionDetails,ProductionPacking,RawMaterial,PackingMaterial,\
+                    ProductionDamage
 from .serializers import ProductionSerializer,ProductionDetailsSerializer,PaackingDetailsSerializer,meterialSerializer,\
-                         PackingSerializer,FormulaSerializer,view_Production_Serializer
+                         PackingSerializer,FormulaSerializer,view_Production_Serializer,Production_Damage_Serializer
 
 
 current_date = datetime.datetime.now().date()
@@ -118,7 +119,38 @@ def addProduction_Packing(request):
                         serializer_data.save()
     return Response(packingdata_data.initial_data, status=status.HTTP_201_CREATED)
             
-            
+@api_view(['GET'])
+def getProductiondetails(request):
+    if request.method == 'GET':
+        queryset = ProductionDamage.objects.all()
+        serializer_data = Production_Damage_Serializer(queryset ,many=True)
+        return Response(serializer_data.data)
+
+@api_view(['POST'])
+def addProductionDamagedData(request):
+     if request.method == 'POST':
+        damage_obj = {
+            'ProductionDamageID':2,
+            'DamagedQuantity': "",
+            'DamageReason': "",
+            'LossPrice': "",
+            'ID':'',
+            'AddedTimeStamp':'',
+            'UpdatedTimeStamp':'',
+        }
+        damage_obj['DamagedQuantity'] = int(request.data["damaged"]['DamagedQuantity'])
+        damage_obj['DamageReason'] = request.data["damaged"]['DamageReason']
+        damage_obj['LossPrice'] = int(request.data["damaged"]['LossPrice'])
+        damage_obj['ID']=request.data["salseid"]
+        damage_obj['AddedTimeStamp']=current_date_time
+        damage_obj['UpdatedTimeStamp']=current_date_time
+
+        serializer_data = Production_Damage_Serializer(data = damage_obj)
+        if serializer_data.is_valid():
+            serializer_data.save()
+            print(damage_obj)
+        return Response(serializer_data.data)
+           
             
 from rest_framework import generics
 # from rest_framework.generics import RetrieveAPIView

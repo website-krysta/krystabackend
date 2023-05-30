@@ -14,7 +14,7 @@ from .productApi import addProduct,getProduct,addProductDetails,getProducItem,Up
 from .packingApi import addPacking,getPacking,addPackingDetails,getPackingItem,getpacking_material_list,UpdatePackingDetails
 from .labour import addLabour,getLabour
 from .formula import getformula,addformula,getformulamaterial,addformulamaterial,getformula_ID_Data,getProductionformula,getFormulaCategory
-from .production import getProduction,addProduction,addProduction_Packing,getProductionDetails,productioninfo_view
+from .production import getProduction,addProduction,addProduction_Packing,getProductionDetails,productioninfo_view,getProductiondetails,addProductionDamagedData
 from .sales import getSalesInvoice,getSalesInvoice_ID_Data,addSalesInvoiceData,getSales,getSales_ID_Data,addSalesData,getSalesdetails,updateSalesInvoice_ID_Data,\
                    salesDetail_view,addSalesDamagedData
 # router = routers.DefaultRouter()
@@ -100,6 +100,8 @@ urlpatterns = [
     path('production_packingTable_ViewSet/', Production_packing_ViewSet.as_view()),
     # new production tables 
     path('productioninfo_view/', productioninfo_view.as_view()),
+    path('production/damage/', addProductionDamagedData, name='addproductiondamaged'),
+    path('production/damage/list/', getProductiondetails, name='getDamageData'),
     #---- salesInvoice tables ------#  
     path('salesinvoice/list/', getSalesInvoice, name='getsalesData'),
     path('salesinvoice/<int:id>/', getSalesInvoice_ID_Data, name='getsalesIdData'),

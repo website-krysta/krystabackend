@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import user,RawMaterial,Vendor,Damaged,Addrawmaterial,Product,ProductDetails,PackingDetails,PackingMaterial,\
                     Labour,Invoice,Formula,FormulaMaterials,Production,ProductionDetails,ProductionPacking,SalesInvoice,\
-                    SalesDetails,Sales,SalesDamage,Category
+                    SalesDetails,Sales,SalesDamage,Category,ProductionDamage
 # Register your models here.
 
 class Adminuser(admin.ModelAdmin):
@@ -62,10 +62,11 @@ class AdminSalesInvoice(admin.ModelAdmin):
 class AdminSales(admin.ModelAdmin):
     list_display=(['SalesID','TotalProducts','TotalAmount','TransactionDate','InvoiceID','VendorID'])
 class AdminSalesDetails(admin.ModelAdmin):
-    list_display=(['ID','Quantity','Price','FormulaID','SalesID'])
+    list_display=(['ID','Quantity','Price','FormulaID','ProductID','SalesID','Type'])
 class AdminSalesDamaged(admin.ModelAdmin):
     list_display=(['SalesDamageID','DamagedQuantity','DamageReason','LossPrice','ID'])
-
+class AdminProductDamaged(admin.ModelAdmin):
+    list_display=(['ProductionDamageID','DamagedQuantity','DamageReason','LossPrice','ID'])
 class AdminCategory(admin.ModelAdmin):
     list_display=(['ID','Name'])
 ######################################################################
@@ -97,4 +98,5 @@ admin.site.register(SalesInvoice,AdminSalesInvoice)
 admin.site.register(Sales,AdminSales)
 admin.site.register(SalesDetails,AdminSalesDetails)
 admin.site.register(SalesDamage,AdminSalesDamaged)
+admin.site.register(ProductionDamage,AdminProductDamaged)
 admin.site.register(Category,AdminCategory)

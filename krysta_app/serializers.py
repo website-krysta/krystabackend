@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import user,RawMaterial,Vendor,Addrawmaterial,Damaged,Product,ProductDetails,PackingMaterial,\
                    PackingDetails,Labour,Invoice,Formula,FormulaMaterials,Production,ProductionDetails,ProductionPacking,\
-                   SalesInvoice,Sales,SalesDetails,SalesDamage,Category
+                   SalesInvoice,Sales,SalesDetails,SalesDamage,Category,ProductionDamage
 
 
 
@@ -197,11 +197,27 @@ class join_Formula_Serializer(serializers.ModelSerializer):
         model = Formula
         fields = ['FormulaID','FormulaName','TotalProductionQty','TotalSaledQty','AddedTimeStamp']
 
+
+
+class Production_Damage_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductionDamage
+        fields = ['ProductionDamageID', 'DamagedQuantity', 'DamageReason', 'LossPrice']
+
+class view_Production_DamageSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = ProductionDetails
+        fields = ['Pro_detailsID','MaterialID','Quantity','production_damage']
+
+
 class viewProductionFormulaSerializer(serializers.ModelSerializer):
     forumula = join_Formula_Serializer(source='FormulaID')
+    production_damage = Production_Damage_Serializer(many=True, read_only=True)
+    # production_material = view_Production_DamageSerializer(many=True, read_only=True)
     class Meta:
         model = Production
-        fields = ['ProductionID','BatchNo','ProductionQuantity','AddedTimeStamp','TransactionDate','FormulaID','forumula']
+        fields = ['ProductionID','BatchNo','ProductionQuantity','AddedTimeStamp','TransactionDate','FormulaID','forumula','production_damage']
 
 
 # detals
@@ -263,16 +279,21 @@ class join_SalesDetails_Serializer(serializers.ModelSerializer):
     SaleInfo = Sales_Serializer(source='SalesID')
     formulainfo = join_Formula_Serializer(source='FormulaID')
     sales_damage = Sales_Damage_Serializer(many=True, read_only=True)
-
+    whitelabeling = ProductlSerializer(source='ProductID')
     class Meta:
         model = SalesDetails
-        fields = ['ID','Quantity','Price','FormulaID','SalesID','SaleInfo','formulainfo','sales_damage']
+        fields = ['ID','Quantity','Price','FormulaID','SalesID','SaleInfo','formulainfo','sales_damage','whitelabeling']
 
 
 # formula+production+packing
+class Production_Damage_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductionDamage
+        fields = ['ProductionDamageID', 'DamagedQuantity', 'DamageReason', 'LossPrice','ID']
 
 class view_Production_DetailsSerializer(serializers.ModelSerializer):
     Material_info = Stock_rawmaterial_Serializer(source='MaterialID')
+    # production_damage = Production_Damage_Serializer(many=True, read_only=True)
     class Meta:
         model = ProductionDetails
         fields = ['Pro_detailsID','MaterialID','Quantity','Material_info']
@@ -289,3 +310,4 @@ class production_Formula_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Formula
         fields = ['FormulaID','FormulaName','TotalProductionQty','TotalSaledQty','production_details']
+

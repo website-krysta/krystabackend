@@ -13,9 +13,9 @@ import datetime
 
 
 from rest_framework import generics
-from .models import SalesInvoice,Sales,SalesDetails,Vendor,Production,Formula,SalesDamage
+from .models import SalesInvoice,Sales,SalesDetails,Vendor,Production,Formula,SalesDamage,Product
 from .serializers import SalesInvoiceSerializer,SalesSerializer,SalesDetailsSerializer,FormulaSerializer,ProductionSerializer,\
-    join_SalesDetails_Serializer,SalesDamagedSerializer
+    join_SalesDetails_Serializer,SalesDamagedSerializer,ProductlSerializer
 
 
 current_date = datetime.datetime.now().date()
@@ -119,16 +119,49 @@ def addSalesData(request):
         for item,proInfo in zip(request.data['productIdata'],request.data['productioninfo']):
             # queryset = Production.objects.get(ProductionID=item["productId"])
             formulaId = item['productId']
+            productname = item['productname']
+            # avaQty = item['avaQty']
             salesid = sales_data['SalesID']
-            salesDetails_data = {
+            if Formula.objects.filter(FormulaName=productname).exists():
+                salesDetails_data = {
                     "ID": 0,
                     "Quantity": int(proInfo["quantity"]),
                     "Price": int(proInfo["price"]),
                     "AddedTimeStamp": current_date_time,
                     "UpdatedTimeStamp": current_date_time,
                     "FormulaID": formulaId,
-                    "SalesID": salesid
-            }
+                    'ProductID':'',
+                    "SalesID": salesid,
+                    'Type':'Formula',
+                }
+                serializer_info = SalesDetailsSerializer(data=salesDetails_data)
+                if serializer_info.is_valid():
+                    serializer_info.save()
+                    queryset = Formula.objects.get(FormulaID=salesDetails_data["FormulaID"])
+                    queryset.TotalSaledQty += int(proInfo["quantity"])
+                    formula_serializer = FormulaSerializer(instance=queryset, data=queryset.__dict__)
+                    if formula_serializer.is_valid():
+                        formula_serializer.save()
+            else:
+                salesDetails_data = {
+                        "ID": 0,
+                        "Quantity": int(proInfo["quantity"]),
+                        "Price": int(proInfo["price"]),
+                        "AddedTimeStamp": current_date_time,
+                        "UpdatedTimeStamp": current_date_time,
+                        "FormulaID":"",
+                        'ProductID':formulaId,
+                        "SalesID": salesid,
+                        'Type':'WhiteLabeling',
+                }
+                serializer_info = SalesDetailsSerializer(data=salesDetails_data)
+                if serializer_info.is_valid():
+                    serializer_info.save()
+                    queryset = Product.objects.get(ProductID=formulaId)
+                    queryset.ConsumedQuantity += int(proInfo["quantity"])
+                    formula_serializer = ProductlSerializer(instance=queryset, data=queryset.__dict__)
+                    if formula_serializer.is_valid():
+                        formula_serializer.save()
          
             # diff_qty= queryset.ProductionQuantity - int(proInfo["quantity"])
             # update_production = {
@@ -143,14 +176,14 @@ def addSalesData(request):
             # if serializer_Info.is_valid():
             #     serializer_Info.save()
 
-            serializer_info = SalesDetailsSerializer(data=salesDetails_data)
-            if serializer_info.is_valid():
-                serializer_info.save()
-                queryset = Formula.objects.get(FormulaID=salesDetails_data["FormulaID"])
-                queryset.TotalSaledQty += int(proInfo["quantity"])
-                formula_serializer = FormulaSerializer(instance=queryset, data=queryset.__dict__)
-                if formula_serializer.is_valid():
-                    formula_serializer.save()
+            # serializer_info = SalesDetailsSerializer(data=salesDetails_data)
+            # if serializer_info.is_valid():
+            #     serializer_info.save()
+            #     queryset = Formula.objects.get(FormulaID=salesDetails_data["FormulaID"])
+            #     queryset.TotalSaledQty += int(proInfo["quantity"])
+            #     formula_serializer = FormulaSerializer(instance=queryset, data=queryset.__dict__)
+            #     if formula_serializer.is_valid():
+            #         formula_serializer.save()
                 
         return Response(serializer_data.data)
 
