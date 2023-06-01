@@ -55,24 +55,11 @@ def UserList(request):
         serializer_data = UserSerializer(instance=useriem ,data = user_details)
         if serializer_data.is_valid():
             for fields in queryset:
-                if fields['EmailID'] ==  user_details['EmailID'] and fields['Password'] ==  user_details['Password']:
-                        print('login sucessfully')
-                        # Generate the JWT token
-                        # token_data_obj = user.objects.get(UserID=userdata.initial_data['EmailID'])
-                        # token = jwt.encode(token_data_obj, settings.SECRET_KEY, algorithm='HS256')
-                    
-                        #audir app
-                        # encoded_jwt = jwt.encode(
-                        #     {"exp": exp, "nbf": now, "sub": email}, settings.SECRET_KEY, algorithm="HS256",
-                        # )
+                if fields['EmailID'] ==  request.data['EmailID']and fields['Password'] == request.data['Password']:
                         return Response(serializer_data.data, status=status.HTTP_200_OK)
-                        
-                        
                 #return Response(userdata.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer_data.data.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-     
 
 @api_view(['POST'])
 def Useradd(request):
@@ -364,7 +351,7 @@ def addinvoice(request):
         request.data[get_update_time] = current_date_time
         reciveddata = request.data['RecievedDate']
         if reciveddata == "":
-            request.data['RecievedDate']= "0001-01-01"
+            request.data['RecievedDate']= None
         Invoice_Number = request.data['InvoiceNumber']
         existinginvoice = Invoice.objects.filter(InvoiceNumber=Invoice_Number).exists()
         if existinginvoice:

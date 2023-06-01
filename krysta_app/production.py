@@ -93,7 +93,7 @@ def addProduction_Packing(request):
                 aMaterial_item = RawMaterial.objects.filter(MaterialID = oMaterial.MaterialID_id)
                 for materialItem in aMaterial_item:
                     materialItem.ConsumedQuantity +=  int(oMaterial.Quantity)/100 * int(request.data["productionData"]["ProductionQuantity"])
-                    serializer_data = meterialSerializer(instance=materialItem, data=materialItem.__dict__)
+                    serializer_data = meterialSerializer(instance=materialItem, data=materialItem)
                     if serializer_data.is_valid():
                         serializer_data.save()
                         

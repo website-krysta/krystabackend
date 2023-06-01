@@ -37,10 +37,13 @@ def getProduct(request):
 @api_view(['POST'])
 def addProduct(request):
     if request.method == 'POST':
-        product_data = ProductlSerializer(data = request.data)
-        if product_data.is_valid():
-            product_data.save()
-            return Response(product_data.initial_data, status=status.HTTP_201_CREATED)
+        if Product.objects.filter(ProductName=request.data['ProductName']).exists():
+            return Response({'error': 'Product Name already exists'},status=status.HTTP_226_IM_USED)
+        else:    
+            product_data = ProductlSerializer(data = request.data)
+            if product_data.is_valid():
+                product_data.save()
+                return Response(product_data.initial_data, status=status.HTTP_201_CREATED)
         return Response(product_data.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['GET'])
