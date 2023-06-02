@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Max
-
+import decimal
 
 # Create your jwt token .
 # import jwt 
@@ -92,9 +92,15 @@ def addProduction_Packing(request):
                 production_data.save()
                 aMaterial_item = RawMaterial.objects.filter(MaterialID = oMaterial.MaterialID_id)
                 for materialItem in aMaterial_item:
-                    materialItem.ConsumedQuantity +=  int(oMaterial.Quantity)/100 * int(request.data["productionData"]["ProductionQuantity"])
-                    serializer_data = meterialSerializer(instance=materialItem, data=materialItem)
-                    if serializer_data.is_valid():
+                    if materialItem.QtyType == "liters":
+                        materialItem.ConsumedQuantity += int((int(oMaterial.Quantity)/100) * (int(request.data["productionData"]["ProductionQuantity"])*0.9708))
+                        # consumed_quantity  =  decimal.Decimal(int(oMaterial.Quantity)/100 * int(request.data["productionData"]["ProductionQuantity"]))
+                        # materialItem.ConsumedQuantity += consumed_quantity * decimal.Decimal('0.9708') 
+                    else:
+                       materialItem.ConsumedQuantity +=  int(int(oMaterial.Quantity)/100 * int(request.data["productionData"]["ProductionQuantity"]))
+
+                    serializer_data = meterialSerializer(instance=materialItem, data=materialItem.__dict__)
+                    if  serializer_data.is_valid():
                         serializer_data.save()
                         
                     

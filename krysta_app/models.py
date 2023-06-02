@@ -19,14 +19,14 @@ class RawMaterial(models.Model):
     MaterialCode = models.CharField(max_length=255)
     MaterialName  = models.CharField(max_length=25)
     QtyType = models.CharField(max_length=20 ,null=True, blank=True)
-    TotalQuantity = models.IntegerField(default=0)
-    ConsumedQuantity =  models.IntegerField(default=0,null=True, blank=True)
+    TotalQuantity = models.DecimalField(max_digits=10,default=0, decimal_places=2)
+    ConsumedQuantity =  models.DecimalField(max_digits=10, decimal_places=2,default=0,null=True, blank=True)
     AddedTimestamp = models.DateTimeField(default=timezone.now)
     UpdatedTimestamp = models.DateTimeField(default=timezone.now)
 
     def __int__(self):
             return self.MaterialID
-
+                                   
 class Vendor(models.Model):
     VendorID = models.AutoField(primary_key=True)
     VendorCode = models.CharField(max_length=100)
