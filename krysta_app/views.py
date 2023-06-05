@@ -422,7 +422,7 @@ class Production_Formula_ViewSet(generics.ListCreateAPIView):
 
 #view table  fro production  join production + packing materials
 class Production_Formula_ViewSet(generics.ListCreateAPIView):
-    queryset =Production.objects.all().order_by('-AddedTimeStamp','-ProductionID')
+    queryset =Production.objects.all().order_by('-ProductionID')
     serializer_class = viewProductionFormulaSerializer
     lookup_field = 'FormulaID'
 
