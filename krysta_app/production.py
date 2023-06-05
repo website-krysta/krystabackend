@@ -93,9 +93,9 @@ def addProduction_Packing(request):
                 aMaterial_item = RawMaterial.objects.filter(MaterialID = oMaterial.MaterialID_id)
                 for materialItem in aMaterial_item:
                     if materialItem.QtyType == "liters":
-                        materialItem.ConsumedQuantity += int((int(oMaterial.Quantity)/100) * (int(request.data["productionData"]["ProductionQuantity"])*0.9708))
+                        materialItem.ConsumedQuantity += int((int(oMaterial.Quantity)/100) * (int(request.data["productionData"]["ProductionQuantity"])*1))
                         # consumed_quantity  =  decimal.Decimal(int(oMaterial.Quantity)/100 * int(request.data["productionData"]["ProductionQuantity"]))
-                        # materialItem.ConsumedQuantity += consumed_quantity * decimal.Decimal('0.9708') 
+                        # materialItem.ConsumedQuantity += consumed_quantity * decimal.Decimal('1') 
                     else:
                        materialItem.ConsumedQuantity +=  int(int(oMaterial.Quantity)/100 * int(request.data["productionData"]["ProductionQuantity"]))
 
