@@ -111,6 +111,29 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'OPTIONS': {
+#         'sql_mode': 'traditional',
+#         },
+#         'NAME': 'krystacrop',
+#         'USER': 'admin',
+#         'PASSWORD': 'Krysta2023',
+#         'HOST': 'krystabackend.cvmiveru2zac.ap-south-1.rds.amazonaws.com',
+#         'PORT': '3306',
+#     }
+# }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'krystaApi',
+#         'USER': 'masteruser',
+#         'PASSWORD': 'Krysta2023',
+#         'HOST': 'krysta-postgres-sql.cvmiveru2zac.ap-south-1.rds.amazonaws.com',
+#         'PORT': '3306',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
