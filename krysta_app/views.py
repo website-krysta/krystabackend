@@ -29,6 +29,9 @@ current_date = datetime.datetime.now().date()
 current_date_time = datetime.datetime.now()
 
 
+def home(request):
+    return render(request, "home.html")
+
 @api_view(['GET','POST'])
 def UserList(request):
     if request.method == 'GET':

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-
+from krysta_app.views import home
 # from rest_framework import routers
 # from krysta_app.views import MaterialViewSet
 # router = routers.DefaultRouter()
@@ -23,5 +23,6 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home, name='home'),
     path('api/', include('krysta_app.urls')),
 ]

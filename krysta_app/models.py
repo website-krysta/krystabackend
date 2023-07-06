@@ -150,6 +150,7 @@ class Labour(models.Model):
     MorningShiftAmount =	models.DecimalField(max_digits=10, decimal_places=2)
     NightShiftAmount =	models.DecimalField(max_digits=10, decimal_places=2)
     EnteryDate = models.DateTimeField(default=timezone.now)
+    Formulas = models.CharField(max_length=100,default='')
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     updatedTimeStamp	= models.DateTimeField(default=timezone.now)
 

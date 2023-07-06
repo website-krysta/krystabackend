@@ -37,9 +37,15 @@ def getLabour(request):
 @api_view(['POST'])
 def addLabour(request):
     if request.method == 'POST':
-        result = request.data['EnteryDate'] + "-" + current_hour + ":" + current_minute
-        request.data['EnteryDate']= result
-        labour_data = LabourSerializer(data = request.data)
+        formula = ""
+        for formulaname  in request.data['formula']:
+            formula += formulaname['materialname'] + ", "
+        Formula = formula.rstrip(", ")
+
+        result = request.data['labour_data']['EnteryDate'] + "-" + current_hour + ":" + current_minute
+        request.data['labour_data']['EnteryDate'] = result
+        request.data['labour_data']['Formulas'] = Formula
+        labour_data = LabourSerializer(data = request.data['labour_data'])
         if labour_data.is_valid():
             labour_data.save()
             return Response(labour_data.initial_data, status=status.HTTP_201_CREATED)
