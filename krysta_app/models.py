@@ -201,6 +201,7 @@ class Production(models.Model):
     ProductionQuantity = models.DecimalField(max_digits=10, decimal_places=2)
     AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
     UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
+    BatchQty=  models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True,default=0.0)
     def __int__(self):
         return self.ProductionID
     
@@ -264,7 +265,7 @@ class Sales(models.Model):
         return self.SalesID
     
 class SalesDetails(models.Model):
-    ID	= models.AutoField(primary_key=True)
+    ID	= models.IntegerField(primary_key=True)
     Quantity =	models.DecimalField(max_digits=10, decimal_places=2)
     Price  = models.DecimalField(max_digits=10, decimal_places=2)
     FormulaID  = models.ForeignKey('Formula', on_delete=models.CASCADE,null=True, blank=True,default="")
@@ -295,5 +296,14 @@ class Category(models.Model):
    def __int__(self):
         return self.ID
 
-     
+class BatchSale(models.Model):
+    BatchID	= models.AutoField(primary_key=True)
+    BatchNo = models.CharField(max_length=25,null=True, blank=True)
+    Quantity =	models.DecimalField(max_digits=10, decimal_places=2)
+    ID  = models.ForeignKey('SalesDetails',related_name='sales_batch', on_delete=models.CASCADE)
+    AddedTimeStamp	 = models.DateTimeField(default=timezone.now)
+    UpdatedTimeStamp = models.DateTimeField(default=timezone.now)
+   
+    def __int__(self):
+        return self.BatchID
      

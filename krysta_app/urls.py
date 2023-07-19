@@ -16,7 +16,7 @@ from .labour import addLabour,getLabour
 from .formula import getformula,addformula,getformulamaterial,addformulamaterial,getformula_ID_Data,getProductionformula,getFormulaCategory
 from .production import getProduction,addProduction,addProduction_Packing,getProductionDetails,productioninfo_view,getProductiondetails,addProductionDamagedData
 from .sales import getSalesInvoice,getSalesInvoice_ID_Data,addSalesInvoiceData,getSales,getSales_ID_Data,addSalesData,getSalesdetails,updateSalesInvoice_ID_Data,\
-                   salesDetail_view,addSalesDamagedData
+                   salesDetail_view,addSalesDamagedData,getBatchSales,getBatchSales_ID
 # router = routers.DefaultRouter()
 # router.register(r'modela', MaterialViewSet)    
 urlpatterns = [
@@ -115,5 +115,7 @@ urlpatterns = [
     path('salesDetails/list/', getSalesdetails, name='getsalesDetails'),
     path('sales/damage/', addSalesDamagedData, name='addsalesdamaged'),
     path('sales_details_ViewSet/', salesDetail_view.as_view()),
-     
+    #----batchsale ------------
+    path('batchsales/list/', getBatchSales, name='getbatchsalesData'),
+    path('batchsales/<int:id>/', getBatchSales_ID, name='getbatchsalesIdData'),
 ]

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import user,RawMaterial,Vendor,Addrawmaterial,Damaged,Product,ProductDetails,PackingMaterial,\
                    PackingDetails,Labour,Invoice,Formula,FormulaMaterials,Production,ProductionDetails,ProductionPacking,\
-                   SalesInvoice,Sales,SalesDetails,SalesDamage,Category,ProductionDamage
+                   SalesInvoice,Sales,SalesDetails,SalesDamage,Category,ProductionDamage,BatchSale
 
 
 
@@ -217,7 +217,7 @@ class viewProductionFormulaSerializer(serializers.ModelSerializer):
     # production_material = view_Production_DamageSerializer(many=True, read_only=True)
     class Meta:
         model = Production
-        fields = ['ProductionID','BatchNo','ProductionQuantity','AddedTimeStamp','TransactionDate','FormulaID','forumula','production_damage']
+        fields = ['ProductionID','BatchNo','ProductionQuantity','BatchQty','AddedTimeStamp','TransactionDate','FormulaID','forumula','production_damage']
 
 
 # detals
@@ -311,3 +311,10 @@ class production_Formula_Serializer(serializers.ModelSerializer):
         model = Formula
         fields = ['FormulaID','FormulaName','TotalProductionQty','TotalSaledQty','production_details']
 
+
+
+# create serilizer for batch serilizer -----------------------------------------
+class BatchSales_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = BatchSale
+        fields = '__all__'

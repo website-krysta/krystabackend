@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import user,RawMaterial,Vendor,Damaged,Addrawmaterial,Product,ProductDetails,PackingDetails,PackingMaterial,\
                     Labour,Invoice,Formula,FormulaMaterials,Production,ProductionDetails,ProductionPacking,SalesInvoice,\
-                    SalesDetails,Sales,SalesDamage,Category,ProductionDamage
+                    SalesDetails,Sales,SalesDamage,Category,ProductionDamage,BatchSale
 # Register your models here.
 
 class Adminuser(admin.ModelAdmin):
@@ -47,7 +47,7 @@ class AdminFormulaMaterial(admin.ModelAdmin):
 
 #----------------------
 class AdminProduction(admin.ModelAdmin):
-    list_display=(['ProductionID','BatchNo','TransactionDate','FormulaID','ProductionQuantity','AddedTimeStamp','UpdatedTimeStamp'])
+    list_display=(['ProductionID','BatchNo','TransactionDate','FormulaID','ProductionQuantity','BatchQty','AddedTimeStamp','UpdatedTimeStamp'])
 #----------------------
 class AdminProductionDetails(admin.ModelAdmin):
     list_display=(['Pro_detailsID','ProductionID','MaterialID','Quantity','AddedTimeStamp','UpdatedTimeStamp'])
@@ -55,6 +55,7 @@ class AdminProductionDetails(admin.ModelAdmin):
 #----------------------
 class AdminProductionPacking(admin.ModelAdmin):
     list_display=(['production_packing_ID','ProductionID','PackingMaterialID','Quantity','AddedTimeStamp','UpdatedTimeStamp'])
+
 
 #----------------------
 class AdminSalesInvoice(admin.ModelAdmin):
@@ -69,6 +70,9 @@ class AdminProductDamaged(admin.ModelAdmin):
     list_display=(['ProductionDamageID','DamagedQuantity','DamageReason','LossPrice','ID'])
 class AdminCategory(admin.ModelAdmin):
     list_display=(['ID','Name'])
+
+class AdminBatchSale(admin.ModelAdmin):
+    list_display=(['BatchID','BatchNo','Quantity','ID','AddedTimeStamp'])
 ######################################################################
 
 admin.site.register(user,Adminuser)
@@ -100,3 +104,4 @@ admin.site.register(SalesDetails,AdminSalesDetails)
 admin.site.register(SalesDamage,AdminSalesDamaged)
 admin.site.register(ProductionDamage,AdminProductDamaged)
 admin.site.register(Category,AdminCategory)
+admin.site.register(BatchSale,AdminBatchSale)

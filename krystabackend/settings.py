@@ -78,7 +78,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ORIGIN_WHITELIST = ["https://website-krysta.github.io"]
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
-    # 'https://website-krysta.github.io/krystafrontend'
+    # 'https://plant.krystacrop.com'
 )
    
 ROOT_URLCONF = 'krystabackend.urls'
