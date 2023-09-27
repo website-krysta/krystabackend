@@ -45,7 +45,10 @@ def getProductionformula(request):
 def addformula(request):
     if request.method == 'POST':
         max_value = Formula.objects.aggregate(max_value=Max('FormulaID'))
-        max_value = max_value['max_value']+1
+        if max_value['max_value'] == None:
+            max_value = 1
+        else:
+            max_value = max_value['max_value']+1
 
         formula_name = request.data['formulaname']['FormulaName']
         del request.data['formulaname']["FormulaName"]

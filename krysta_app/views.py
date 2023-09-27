@@ -246,7 +246,10 @@ def getrawmaterial_list(request,id):
 def addRawmaterial(request):
     if request.method == 'POST':
         max_value = Damaged.objects.aggregate(max_value=Max('DamgeID'))
-        max_value = max_value['max_value']+1
+        if max_value['max_value'] == None:
+            max_value = 1
+        else:
+            max_value = max_value['max_value']+1
         key_to_get = 'DamgeID'
         request.data[key_to_get] = max_value
         set_difference = 'DamagedQty'
@@ -337,7 +340,10 @@ def getInvoiceData(request,id):
 def addinvoice(request):
     if request.method == 'POST':
         max_value = Invoice.objects.aggregate(max_value=Max('InvoiceID'))
-        max_value = max_value['max_value']+1
+        if max_value['max_value'] == None:
+            max_value = 1
+        else:
+            max_value = max_value['max_value']+1
         key_to_get = 'InvoiceID'
         request.data[key_to_get] = max_value
         id = request.data['VendorID']

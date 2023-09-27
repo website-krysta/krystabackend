@@ -30,10 +30,10 @@ class RawMaterial(models.Model):
 class Vendor(models.Model):
     VendorID = models.AutoField(primary_key=True)
     VendorCode = models.CharField(max_length=100)
-    VendorName = models.CharField(max_length=100)
+    VendorName = models.CharField(max_length=100,null=True, blank=True)
     RegisteredName  = models.CharField(max_length=100)
-    Phone = models.CharField(max_length=25)
-    EmailID = models.EmailField()
+    Phone = models.CharField(max_length=25,null=True, blank=True)
+    EmailID = models.EmailField(null=True, blank=True)
     Address =  models.CharField(max_length=255)
     City =  models.CharField(max_length=25)
     State =  models.CharField(max_length=25)
@@ -46,7 +46,7 @@ class Vendor(models.Model):
             return self.VendorID
     
 class Damaged(models.Model):
-    DamgeID = models.IntegerField(primary_key=True)
+    DamgeID = models.IntegerField(primary_key=True,default=0)
     DamagedQty = models.IntegerField(null=True,blank=True)
     DamagedResion = models.CharField(max_length=100,null=True,blank=True)
     LossofAmount = models.IntegerField(null=True,blank=True,default=0)
@@ -158,9 +158,9 @@ class Labour(models.Model):
         return self.ID
     
 class Invoice(models.Model):
-    InvoiceID = models.IntegerField(primary_key=True)
+    InvoiceID = models.IntegerField(primary_key=True,default=0)
     InvoiceNumber =	models.CharField(max_length=10)
-    InwardNumber  = models.CharField(max_length=20)
+    InwardNumber  = models.CharField(max_length=35)
     InvoiceDate   = models.DateField()
     RecievedDate  = models.DateField(null=True, blank=True,default="")
     VendorID = models.IntegerField()
@@ -172,7 +172,7 @@ class Invoice(models.Model):
 
      
 class Formula(models.Model):		
-    FormulaID	= models.IntegerField(primary_key=True)
+    FormulaID	= models.IntegerField(primary_key=True,default=0)
     FormulaName  = models.CharField(max_length=20)
     TotalMaterialsUsed = models.IntegerField()
     TotalProductionQty =  models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True,default='0')
@@ -194,7 +194,7 @@ class FormulaMaterials(models.Model):
 ##############---PRODUCTION MODELS ---####################
 
 class Production(models.Model):		
-    ProductionID	= models.IntegerField(primary_key=True)
+    ProductionID	= models.IntegerField(primary_key=True,default=0)
     TransactionDate = models.DateTimeField(default=timezone.now)
     BatchNo = models.CharField(max_length=25,null=True, blank=True,default="")
     FormulaID  = models.ForeignKey('Formula',related_name='production_details', on_delete=models.CASCADE)
@@ -238,7 +238,7 @@ class ProductionDamage(models.Model):
         return self.ProductionDamageID   
 ##############--- Sales  MODELS ---####################
 class SalesInvoice(models.Model):
-    InvoiceID = models.IntegerField(primary_key=True)
+    InvoiceID = models.IntegerField(primary_key=True,default=0)
     InvoiceNumber =	models.CharField(max_length=10)
     InwardNumber  = models.CharField(max_length=20)
     InvoiceDate   = models.DateField()
@@ -252,7 +252,7 @@ class SalesInvoice(models.Model):
         return self.InvoiceID
     
 class Sales(models.Model):
-    SalesID	= models.IntegerField(primary_key=True)
+    SalesID	= models.IntegerField(primary_key=True,default=0)
     TotalProducts =	models.CharField(max_length=10)
     TotalAmount  = models.DecimalField(max_digits=10, decimal_places=2)
     TransactionDate = models.DateTimeField(default=timezone.now)
@@ -265,7 +265,7 @@ class Sales(models.Model):
         return self.SalesID
     
 class SalesDetails(models.Model):
-    ID	= models.IntegerField(primary_key=True)
+    ID	= models.IntegerField(primary_key=True,default=0)
     Quantity =	models.DecimalField(max_digits=10, decimal_places=2)
     Price  = models.DecimalField(max_digits=10, decimal_places=2)
     FormulaID  = models.ForeignKey('Formula', on_delete=models.CASCADE,null=True, blank=True,default="")

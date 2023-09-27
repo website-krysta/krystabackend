@@ -42,7 +42,11 @@ def getSalesInvoice_ID_Data(request,id):
 def addSalesInvoiceData(request):
     if request.method == 'POST':
         max_value = SalesInvoice.objects.aggregate(max_value=Max('InvoiceID'))
-        max_value = max_value['max_value']+1
+        if max_value['max_value'] == None:
+            max_value = 1
+        else:
+            max_value = max_value['max_value']+1
+        # max_value = max_value['max_value']+1
         key_to_get = 'InvoiceID'
         request.data[key_to_get] = max_value
         vendordata = Vendor.objects.get(VendorID=int(request.data["VendorID"]))
@@ -101,7 +105,11 @@ def addSalesData(request):
         for items in request.data['productioninfo']:
             totAmount += int(items['price'])
         max_value = Sales.objects.aggregate(max_value=Max('SalesID'))
-        max_value = max_value['max_value']+1
+        if max_value['max_value'] == None:
+            max_value = 1
+        else:
+            max_value = max_value['max_value']+1
+        # max_value = max_value['max_value']+1
         sales_data = {
             "SalesID": max_value,
             'TotalProducts':str(len(request.data['productIdata'])),
@@ -124,7 +132,11 @@ def addSalesData(request):
             salesid = sales_data['SalesID']
             if Formula.objects.filter(FormulaName=productname).exists():
                 max_value = SalesDetails.objects.aggregate(max_value=Max('ID'))
-                max_value = max_value['max_value']+1
+                if max_value['max_value'] == None:
+                    max_value = 1
+                else:
+                    max_value = max_value['max_value']+1
+                # max_value = max_value['max_value']+1
                 salesDetails_data = {
                     "ID": max_value,
                     "Quantity": int(proInfo["quantity"]),
@@ -147,7 +159,11 @@ def addSalesData(request):
                         formula_serializer.save()
             else:
                 max_value = Sales.objects.aggregate(max_value=Max('ID'))
-                max_value = max_value['max_value']+1
+                if max_value['max_value'] == None:
+                    max_value = 1
+                else:
+                    max_value = max_value['max_value']+1
+                # max_value = max_value['max_value']+1
                 salesDetails_data = {
                         "ID": max_value,
                         "Quantity": int(proInfo["quantity"]),
