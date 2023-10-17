@@ -159,8 +159,8 @@ class Labour(models.Model):
     
 class Invoice(models.Model):
     InvoiceID = models.IntegerField(primary_key=True,default=0)
-    InvoiceNumber =	models.CharField(max_length=10)
-    InwardNumber  = models.CharField(max_length=35)
+    InvoiceNumber =	models.CharField(max_length=30)
+    InwardNumber  = models.CharField(max_length=50)
     InvoiceDate   = models.DateField()
     RecievedDate  = models.DateField(null=True, blank=True,default="")
     VendorID = models.IntegerField()
@@ -239,8 +239,8 @@ class ProductionDamage(models.Model):
 ##############--- Sales  MODELS ---####################
 class SalesInvoice(models.Model):
     InvoiceID = models.IntegerField(primary_key=True,default=0)
-    InvoiceNumber =	models.CharField(max_length=10)
-    InwardNumber  = models.CharField(max_length=20)
+    InvoiceNumber =	models.CharField(max_length=30)
+    InwardNumber  = models.CharField(max_length=50)
     InvoiceDate   = models.DateField()
     RecievedDate  = models.DateField(null=True, blank=True,default="")
     BatchNo = models.CharField(max_length=25,null=True, blank=True,default="")

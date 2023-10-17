@@ -75,10 +75,10 @@ CORS_ORIGIN_ALLOW_ALL = True
 #     'x-csrftoken',
 #     'x-requested-with',
 # ]
-# CORS_ORIGIN_WHITELIST = ['https://plant.krystacrop.com',]
+CORS_ORIGIN_WHITELIST = ['https://plant.krystacrop.com',]
 
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
+    # 'http://localhost:3000',
     # 'https://plant.krystacrop.com'
 )
    
